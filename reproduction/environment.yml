@@ -1,0 +1,14 @@
+name: n2n
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - torch==2.7.1
+      - torchvision==0.22.1
+      - onnx2torch==1.5.3
+      - onnx==1.17.0
+      - protobuf==5.29.5
+      - numpy==2.4.6
+      - Pillow==13.0.0

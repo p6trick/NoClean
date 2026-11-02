@@ -1,0 +1,30 @@
+{
+  "paper": "${N2N_ORIGINAL_WORKSPACE}/N2N_Journal.pdf",
+  "table": 5,
+  "arguments": {
+    "checkpoint_root": "${N2N_CHECKPOINT_ROOT}",
+    "device": "cuda",
+    "eval_size": 5000,
+    "batch_size": 32,
+    "threads": 4,
+    "modes": [
+      "pool1"
+    ],
+    "output": null
+  },
+  "modes": {
+    "native": "pool2, direct28 input; no adaptation; expected pooling-size failure",
+    "pool1": "pool1 instead of collected pool2; weights unchanged, architecture setting changed",
+    "pad32": "pool2; zero-pad2 pixels each side to32, remove border after denoising; no resize"
+  },
+  "strict_paper_reproduction_verified": false,
+  "limitations": [
+    "Original Table5 input handling/architecture is unverified.",
+    "pool1/pad32 are explicit diagnostic adaptations, not established paper settings.",
+    "LivDet PGD-labelled checkpoint training attack remains unconfirmed.",
+    "No denoiser is trained or selected on MNIST here; weights are fixed.",
+    "All modes are reported; do not select a best mode and claim exact reproduction."
+  ],
+  "count": 5000,
+  "partial_evaluation": false
+}

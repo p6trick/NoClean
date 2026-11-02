@@ -1,0 +1,14 @@
+{
+  "checked_clean_images": 2500,
+  "legacy_retry_count": 5,
+  "legacy_retry_files": {
+    "${N2N_PM_ROOT}/PGD/data/2015/GreenBit/Alive_half/006_4_6.png": "broken data stream when reading image file",
+    "${N2N_PM_ROOT}/PGD/data/2015/GreenBit/Alive_half/007_8_0.png": "broken data stream when reading image file",
+    "${N2N_PM_ROOT}/PGD/data/2015/GreenBit/Alive_half/009_8_7.png": "broken data stream when reading image file",
+    "${N2N_PM_ROOT}/PGD/data/2015/GreenBit/Alive/015_4_1.png": "broken data stream when reading image file",
+    "${N2N_PM_ROOT}/PGD/data/2015/GreenBit/Alive/023_2_9.png": "broken data stream when reading image file"
+  },
+  "unrecoverable": [],
+  "sample_exclusion": false,
+  "note": "Decoding check only; no model training or full accuracy evaluation."
+}

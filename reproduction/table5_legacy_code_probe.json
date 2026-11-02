@@ -1,0 +1,77 @@
+{
+  "legacy_unet": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/src/unet.py",
+  "legacy_unet_sha256": "53575d0434e92e19f22180842ea408f640ac2ed6b739b1f4e0f060b95ed45f73",
+  "sample_ids": [
+    "image_3052.png",
+    "image_4444.png"
+  ],
+  "note": "Same LivDet weights and real28x28 AA MNIST inputs; exact CPU output comparison, not full classification reproduction",
+  "checks": [
+    {
+      "attack_label": "fgsm",
+      "checkpoint": "${N2N_CHECKPOINT_ROOT}/livdet/fgsm/denoiser.pt",
+      "max_output_difference": 0.0,
+      "output_shape": [
+        2,
+        3,
+        28,
+        28
+      ]
+    },
+    {
+      "attack_label": "pgd",
+      "checkpoint": "${N2N_CHECKPOINT_ROOT}/livdet/pgd/denoiser.pt",
+      "max_output_difference": 0.0,
+      "output_shape": [
+        2,
+        3,
+        28,
+        28
+      ]
+    },
+    {
+      "attack_label": "cw",
+      "checkpoint": "${N2N_CHECKPOINT_ROOT}/livdet/cw/denoiser.pt",
+      "max_output_difference": 0.0,
+      "output_shape": [
+        2,
+        3,
+        28,
+        28
+      ]
+    },
+    {
+      "attack_label": "ba",
+      "checkpoint": "${N2N_CHECKPOINT_ROOT}/livdet/ba/denoiser.pt",
+      "max_output_difference": 0.0,
+      "output_shape": [
+        2,
+        3,
+        28,
+        28
+      ]
+    },
+    {
+      "attack_label": "bim",
+      "checkpoint": "${N2N_CHECKPOINT_ROOT}/livdet/bim/denoiser.pt",
+      "max_output_difference": 0.0,
+      "output_shape": [
+        2,
+        3,
+        28,
+        28
+      ]
+    },
+    {
+      "attack_label": "aa",
+      "checkpoint": "${N2N_CHECKPOINT_ROOT}/livdet/aa/denoiser.pt",
+      "max_output_difference": 0.0,
+      "output_shape": [
+        2,
+        3,
+        28,
+        28
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "fgsm": {
+    "folders": [
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/FGSM",
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/FGSM_Alive"
+    ],
+    "png_count": 1250,
+    "unique_ids": 1250,
+    "matched_evaluation_ids": 1250,
+    "missing_evaluation_ids": 0,
+    "extra_ids": 0
+  },
+  "pgd": {
+    "folders": [
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/PGD",
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/PGD_Alive"
+    ],
+    "png_count": 1250,
+    "unique_ids": 1250,
+    "matched_evaluation_ids": 1250,
+    "missing_evaluation_ids": 0,
+    "extra_ids": 0
+  },
+  "cw": {
+    "folders": [
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/CW",
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/CW_Alive"
+    ],
+    "png_count": 1250,
+    "unique_ids": 1250,
+    "matched_evaluation_ids": 1250,
+    "missing_evaluation_ids": 0,
+    "extra_ids": 0
+  },
+  "ba": {
+    "folders": [
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/BD"
+    ],
+    "png_count": 1250,
+    "unique_ids": 1250,
+    "matched_evaluation_ids": 1250,
+    "missing_evaluation_ids": 0,
+    "extra_ids": 0
+  }
+}

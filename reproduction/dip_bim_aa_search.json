@@ -1,0 +1,440 @@
+{
+  "date": "2026-11-01",
+  "directory_search": {
+    "roots": [
+      "${N2N_PM_ROOT}/BIM",
+      "${N2N_PM_ROOT}/AA",
+      "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data",
+      "${N2N_PM_ROOT}/deep-image-prior/data",
+      "${N2N_PM_ROOT}/PGD/CWAttack",
+      "${N2N_PM_ROOT}/PGD/BoundaryAttack"
+    ],
+    "max_depth": 5,
+    "image_folders": [
+      {
+        "path": "${N2N_PM_ROOT}/BIM/Fingerprint/Alive_train/Alive/denoised",
+        "png_count": 500,
+        "examples": [
+          "013_0_3.png",
+          "007_9_2.png",
+          "004_6_8.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/denoised_Mnsit_pgd",
+        "png_count": 5000,
+        "examples": [
+          "image_3343.png",
+          "image_4386.png",
+          "image_2748.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/denoise_test/pgd_2000_0.3",
+        "png_count": 2000,
+        "examples": [
+          "image_710.png",
+          "image_964.png",
+          "image_1602.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/denoise_test/pgd_val1000_0.3",
+        "png_count": 1000,
+        "examples": [
+          "image_710.png",
+          "image_964.png",
+          "image_296.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/denoise_test/pgd_val1000",
+        "png_count": 1000,
+        "examples": [
+          "image_710.png",
+          "image_964.png",
+          "image_296.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/denoise_test/pgd_val1000/denoised",
+        "png_count": 1000,
+        "examples": [
+          "image_710.png",
+          "image_964.png",
+          "image_296.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/denoise_test/pgd_2000",
+        "png_count": 2000,
+        "examples": [
+          "image_710.png",
+          "image_964.png",
+          "image_1602.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/50_denoised",
+        "png_count": 1000,
+        "examples": [
+          "015_6_2-adv-denoised.png",
+          "024_7_4-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/50_denoised/Latex_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/50_denoised/Gelatine_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/50_denoised/WoodGlue_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/50_denoised/RTV_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/50_denoised/Liquid Ecoflex_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/50_denoised/Ecoflex 00-50_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/Latex_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/Gelatine_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/50_denoised/WoodGlue50",
+        "png_count": 250,
+        "examples": [
+          "018_0_0-adv-denoised-adv-denoised.png",
+          "016_6_9-adv-denoised-adv-denoised.png",
+          "007_4_4-adv-denoised-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/50_denoised/Ecoflex50",
+        "png_count": 250,
+        "examples": [
+          "018_0_0-adv-denoised-adv-denoised.png",
+          "016_6_9-adv-denoised-adv-denoised.png",
+          "007_4_4-adv-denoised-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/50_denoised/Liquid Ecoflex50",
+        "png_count": 250,
+        "examples": [
+          "018_0_0-adv-denoised-adv-denoised.png",
+          "016_6_9-adv-denoised-adv-denoised.png",
+          "007_4_4-adv-denoised-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/50_denoised/RTV50",
+        "png_count": 250,
+        "examples": [
+          "018_0_0-adv-denoised-adv-denoised.png",
+          "016_6_9-adv-denoised-adv-denoised.png",
+          "007_4_4-adv-denoised-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/50_denoised/Latex50",
+        "png_count": 250,
+        "examples": [
+          "018_0_0-adv-denoised-adv-denoised.png",
+          "016_6_9-adv-denoised-adv-denoised.png",
+          "007_4_4-adv-denoised-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/50_denoised/Gelatine50",
+        "png_count": 250,
+        "examples": [
+          "018_0_0-adv-denoised-adv-denoised.png",
+          "016_6_9-adv-denoised-adv-denoised.png",
+          "007_4_4-adv-denoised-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/WoodGlue_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/RTV_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/Liquid Ecoflex_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Fake/100_denoised/Ecoflex 00-50_denoised",
+        "png_count": 250,
+        "examples": [
+          "016_9_0-adv-denoised.png",
+          "016_8_0-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/100_denoised",
+        "png_count": 1000,
+        "examples": [
+          "015_6_2-adv-denoised.png",
+          "024_7_4-adv-denoised.png",
+          "004_3_0-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/denoised",
+        "png_count": 1000,
+        "examples": [
+          "030_8_6-adv-denoised-adv-denoised.png",
+          "013_0_6-adv-denoised-adv-denoised.png",
+          "024_8_3-adv-denoised-adv-denoised.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/Alive_real_valid/denoised",
+        "png_count": 500,
+        "examples": [
+          "alive_024_6_9.png",
+          "alive_024_1_9.png",
+          "alive_020_7_8.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/PGD_Alive",
+        "png_count": 500,
+        "examples": [
+          "alive_024_6_9.png",
+          "alive_024_1_9.png",
+          "alive_020_7_8.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/CW_Alive",
+        "png_count": 500,
+        "examples": [
+          "015_3_7.png",
+          "020_2_7.png",
+          "015_5_9.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/PGD",
+        "png_count": 750,
+        "examples": [
+          "woodglue_015_7_9.png",
+          "rtv_018_5_0.png",
+          "rtv_015_4_4.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/BD/Fake",
+        "png_count": 750,
+        "examples": [
+          "woodglue_015_7_9.png",
+          "rtv_018_5_0.png",
+          "rtv_015_4_4.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/BD/Alive",
+        "png_count": 500,
+        "examples": [
+          "015_3_7.png",
+          "020_2_7.png",
+          "015_5_9.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/CW",
+        "png_count": 750,
+        "examples": [
+          "woodglue_015_7_9.png",
+          "rtv_018_5_0.png",
+          "rtv_015_4_4.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/FGSM",
+        "png_count": 750,
+        "examples": [
+          "woodglue_015_7_9.png",
+          "rtv_018_5_0.png",
+          "rtv_015_4_4.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/DIP/FGSM_Alive",
+        "png_count": 500,
+        "examples": [
+          "alive_024_6_9.png",
+          "alive_024_1_9.png",
+          "alive_020_7_8.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/MNIST/real_CW_valid/denoised",
+        "png_count": 5000,
+        "examples": [
+          "image_3343.png",
+          "image_4386.png",
+          "image_2748.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/MNIST/real_BIM_valid/denoised",
+        "png_count": 5000,
+        "examples": [
+          "image_3343.png",
+          "image_4386.png",
+          "image_2748.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/MNIST/real_PGD_valid/denoised",
+        "png_count": 5000,
+        "examples": [
+          "image_3343.png",
+          "image_4386.png",
+          "image_2748.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/MNIST/real_AA_valid/denoised",
+        "png_count": 5000,
+        "examples": [
+          "image_3343.png",
+          "image_4386.png",
+          "image_2748.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/MNIST/real_AA_valid/denoised/denoised",
+        "png_count": 5000,
+        "examples": [
+          "image_3343.png",
+          "image_4386.png",
+          "image_2748.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/MNIST/real_BA_valid/denoised",
+        "png_count": 5000,
+        "examples": [
+          "image_3343.png",
+          "image_4386.png",
+          "image_2748.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/deep-image-prior/data/denoising",
+        "png_count": 1,
+        "examples": [
+          "F16_GT.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/PGD/BoundaryAttack/Finger/Alive_train/Alive/denoised",
+        "png_count": 500,
+        "examples": [
+          "013_0_3.png",
+          "007_9_2.png",
+          "004_6_8.png"
+        ]
+      },
+      {
+        "path": "${N2N_PM_ROOT}/PGD/BoundaryAttack/Finger/Fake_valid/Fake/denoised",
+        "png_count": 750,
+        "examples": [
+          "woodglue_015_7_9.png",
+          "rtv_018_5_0.png",
+          "rtv_015_4_4.png"
+        ]
+      }
+    ]
+  },
+  "notebook_search": {
+    "scanned": 84,
+    "hits": []
+  },
+  "livdet_bim_denoised_candidate": {
+    "path": "${N2N_PM_ROOT}/BIM/Fingerprint/Alive_train/Alive/denoised",
+    "png_count": 500,
+    "evaluation_id_matches": 0,
+    "training_id_matches": 500,
+    "generation_method": "unverified"
+  },
+  "conclusion": "No verified saved LivDet DIP evaluation outputs for BIM/AA found in searched locations; original attacks exist. MNIST denoised folders are separate and their method is unverified."
+}

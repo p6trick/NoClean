@@ -1,0 +1,18 @@
+{
+  "kind": "post-evaluation checkpoint version recovery; no new inference",
+  "source_runs": {
+    "other_five_models": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261101_191837_892927",
+    "pgd_model": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261102_111446_656366"
+  },
+  "input_manifest_equality_verified": true,
+  "count_per_target": 1250,
+  "selection_note": "PGD alternative examined after v2 disagreed with paper; merged comparison is reference-based recovery, not an independently selected benchmark",
+  "source_row_runs": {
+    "fgsm": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261101_191837_892927",
+    "pgd": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261102_111446_656366",
+    "cw": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261101_191837_892927",
+    "ba": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261101_191837_892927",
+    "bim": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261101_191837_892927",
+    "aa": "${N2N_ORIGINAL_WORKSPACE}/reproduction/runs/at_eval_20261101_191837_892927"
+  }
+}

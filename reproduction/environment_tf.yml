@@ -1,0 +1,12 @@
+name: n2n_tf
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - tensorflow[and-cuda]==2.15.1
+      - keras==2.15.0
+      - numpy==1.26.4
+      - h5py==3.10.0
+      - Pillow==11.3.0

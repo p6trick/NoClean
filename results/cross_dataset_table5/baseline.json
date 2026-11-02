@@ -1,0 +1,12 @@
+{
+  "clean": {
+    "count": 5000,
+    "correct": 4929,
+    "accuracy_percent": 98.58
+  },
+  "aa_attacked": {
+    "count": 5000,
+    "correct": 3706,
+    "accuracy_percent": 74.12
+  }
+}

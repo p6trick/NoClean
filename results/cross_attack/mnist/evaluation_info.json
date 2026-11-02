@@ -1,0 +1,6 @@
+{
+  "count": 5000,
+  "partial_evaluation": false,
+  "output_processing": "float grayscale",
+  "diagonal": "Attack-matched controls, excluded from Table3/4 averages."
+}

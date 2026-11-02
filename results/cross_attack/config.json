@@ -1,0 +1,28 @@
+{
+  "paper": "${N2N_ORIGINAL_WORKSPACE}/N2N_Journal.pdf",
+  "tables": {
+    "livdet": 3,
+    "mnist": 4
+  },
+  "arguments": {
+    "datasets": [
+      "mnist",
+      "livdet"
+    ],
+    "checkpoint_root": "${N2N_CHECKPOINT_ROOT}",
+    "device": "cuda",
+    "mnist_eval_size": 5000,
+    "livdet_eval_size": 1250,
+    "mnist_batch_size": 32,
+    "livdet_batch_size": 1,
+    "threads": 4,
+    "output": null
+  },
+  "protocol": "Six source models by six target attacks; column mean excluding diagonal, no voting.",
+  "limitations": [
+    "LivDet PGD-labelled candidate training attack is unconfirmed; exclusion condition conditional.",
+    "MNIST uses newly trained models; LivDet uses recovered historical weights.",
+    "Saved attack versions are not fully verified, notably MNIST CW/BA training-target pairing.",
+    "Inference-only non-adaptive evaluation; other defense baselines are not reimplemented."
+  ]
+}

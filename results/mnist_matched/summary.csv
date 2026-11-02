@@ -1,0 +1,7 @@
+attack,count,clean,attacked,paper_attacked,defended_attacked,paper_defended,defended_delta_pp,defended_clean,paper_defended_clean,selected_epoch,run
+FGSM,5000,98.58,57.4,57.4,98.02,98.18,-0.16,95.4,98.64,16,archive-run:fgsm
+PGD,5000,98.58,8.96,8.95,91.54,94.26,-2.72,97.64,97.32,16,archive-run:pgd
+CW,5000,98.58,2.0,2.01,96.82,97.79,-0.97,96.34,95.86,13,archive-run:cw
+BA,5000,98.58,97.76,97.75,98.24,97.89,0.35,97.2,95.95,13,archive-run:ba
+BIM,5000,98.58,58.36,58.35,97.44,98.46,-1.02,96.78,97.97,18,archive-run:bim
+AA,5000,98.58,74.12,74.11,95.08,95.8,-0.72,97.3,97.1,19,archive-run:aa

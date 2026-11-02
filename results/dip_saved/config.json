@@ -1,0 +1,26 @@
+{
+  "paper": "${N2N_ORIGINAL_WORKSPACE}/N2N_Journal.pdf",
+  "method": "archived DIP outputs, LivDet",
+  "arguments": {
+    "attacks": [
+      "fgsm",
+      "pgd",
+      "cw",
+      "ba"
+    ],
+    "device": "cuda",
+    "eval_size": 1250,
+    "batch_size": 1,
+    "threads": 4,
+    "checkpoint_root": "${N2N_CHECKPOINT_ROOT}",
+    "output": null
+  },
+  "classifier_sha256": "fa76b19066454e9a1f51acd681de3c9105d032fa551b2aa882f0e7cb26ebd7e6",
+  "image_processing": "PIL L / resize581 bilinear if necessary /255",
+  "limitations": [
+    "DIP generation parameters/version are not fully verified.",
+    "Historical evaluator used Keras; this uses the recovered ONNX-converted classifier.",
+    "Only four attacks have located saved DIP outputs; no full A.7 average yet.",
+    "DIP is a per-image fitting method; no source-attack denoiser is selected here."
+  ]
+}

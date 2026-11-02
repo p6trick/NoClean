@@ -1,0 +1,37 @@
+{
+  "fgsm": {
+    "train": ["Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain"],
+    "evaluation": ["Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval"],
+    "targets": ["Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/while_dep_0.03"],
+    "paper_attacked": 50.00, "paper_defended": 91.11, "paper_defended_clean": 88.88
+  },
+  "pgd": {
+    "train": ["Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/train_alive/Alive", "Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/train_fake/Fake"],
+    "evaluation": ["Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/total_valid"],
+    "targets": ["Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/dep0.4"],
+    "paper_attacked": 3.75, "paper_defended": 91.36, "paper_defended_clean": 89.12
+  },
+  "cw": {
+    "train": ["PGD/CWAttack/all_train"], "evaluation": ["PGD/CWAttack/all_val"],
+    "targets": ["PGD/CWAttack/while_dep_0.03_100"],
+    "paper_attacked": 39.03, "paper_defended": 89.27, "paper_defended_clean": 89.12
+  },
+  "ba": {
+    "train": ["PGD/BoundaryAttack/Finger/Alive_train/Alive", "PGD/BoundaryAttack/Finger/Fake_train/Fake"],
+    "evaluation": ["PGD/BoundaryAttack/Finger/Alive_valid/Alive", "PGD/BoundaryAttack/Finger/Fake_valid/Fake"],
+    "targets": ["PGD/BoundaryAttack/Finger/dep_0.03"],
+    "paper_attacked": 40.79, "paper_defended": 80.55, "paper_defended_clean": 89.12,
+    "note": "Class folders avoid 500 overlapping Alive IDs in the flat for_n2nval folder."
+  },
+  "bim": {
+    "train": ["BIM/Fingerprint/for_n2ntrain"], "evaluation": ["BIM/Fingerprint/for_n2nval"],
+    "targets": ["BIM/Fingerprint/dep_0.03"],
+    "paper_attacked": 58.16, "paper_defended": 90.16, "paper_defended_clean": 89.12
+  },
+  "aa": {
+    "train": ["AA/Finger/for_n2ntrain"], "evaluation": ["AA/Finger/for_n2nval"],
+    "targets": ["AA/Finger/dep_0.03"],
+    "paper_attacked": 87.68, "paper_defended": 88.95, "paper_defended_clean": 89.12,
+    "note": "Archived AA label; standard AutoAttack implementation not verified."
+  }
+}

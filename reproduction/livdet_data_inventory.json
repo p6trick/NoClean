@@ -1,0 +1,346 @@
+{
+  "root": "${N2N_PM_ROOT}",
+  "dataset": "LivDet2015 GreenBit candidates",
+  "label_mapping": {
+    "Fake": 0,
+    "Alive": 1
+  },
+  "classifier": "${N2N_PM_ROOT}/PGD/DIP_GreenBit.pth",
+  "clean_count": 2500,
+  "clean_duplicate_canonical_ids": 0,
+  "canonicalization": "lowercase; prepend alive_ to filenames beginning with a digit",
+  "status": "file inventory and ID coverage only; pixels and classifier baselines not verified",
+  "experiments": {
+    "fgsm": {
+      "paths": {
+        "train": [
+          "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain"
+        ],
+        "evaluation": [
+          "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval"
+        ],
+        "targets": [
+          "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/new_dep",
+          "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/new_dep0.4",
+          "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/while_dep_0.03"
+        ]
+      },
+      "train_count": 1250,
+      "evaluation_count": 1250,
+      "train_alive": 500,
+      "evaluation_alive": 500,
+      "overlap": 0,
+      "duplicate_ids": 0,
+      "missing_clean": 0,
+      "target_candidates": [
+        {
+          "directory": "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/new_dep",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        },
+        {
+          "directory": "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/new_dep0.4",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        },
+        {
+          "directory": "Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/while_dep_0.03",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        }
+      ],
+      "sample_images": {
+        "train": {
+          "file": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/rtv_004_5_5.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        },
+        "evaluation": {
+          "file": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval/woodglue_015_7_9.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        }
+      }
+    },
+    "pgd": {
+      "paths": {
+        "train": [
+          "Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/train_alive/Alive",
+          "Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/train_fake/Fake"
+        ],
+        "evaluation": [
+          "Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/total_valid"
+        ],
+        "targets": [
+          "Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/dep0.4"
+        ]
+      },
+      "train_count": 1250,
+      "evaluation_count": 1250,
+      "train_alive": 500,
+      "evaluation_alive": 500,
+      "overlap": 0,
+      "duplicate_ids": 0,
+      "missing_clean": 0,
+      "target_candidates": [
+        {
+          "directory": "Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/dep0.4",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        }
+      ],
+      "sample_images": {
+        "train": {
+          "file": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/train_alive/Alive/alive_007_4_3.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        },
+        "evaluation": {
+          "file": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/PGD_0.03/total_valid/woodglue_015_7_9.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        }
+      }
+    },
+    "cw": {
+      "paths": {
+        "train": [
+          "PGD/CWAttack/all_train"
+        ],
+        "evaluation": [
+          "PGD/CWAttack/all_val"
+        ],
+        "targets": [
+          "PGD/CWAttack/dep_0.03",
+          "PGD/CWAttack/dep_0.003",
+          "PGD/CWAttack/dep_0.4",
+          "PGD/CWAttack/while_dep_0.03_100"
+        ]
+      },
+      "train_count": 1250,
+      "evaluation_count": 1250,
+      "train_alive": 500,
+      "evaluation_alive": 500,
+      "overlap": 0,
+      "duplicate_ids": 0,
+      "missing_clean": 0,
+      "target_candidates": [
+        {
+          "directory": "PGD/CWAttack/dep_0.03",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        },
+        {
+          "directory": "PGD/CWAttack/dep_0.003",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        },
+        {
+          "directory": "PGD/CWAttack/dep_0.4",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        },
+        {
+          "directory": "PGD/CWAttack/while_dep_0.03_100",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        }
+      ],
+      "sample_images": {
+        "train": {
+          "file": "${N2N_PM_ROOT}/PGD/CWAttack/all_train/rtv_004_5_5.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        },
+        "evaluation": {
+          "file": "${N2N_PM_ROOT}/PGD/CWAttack/all_val/woodglue_015_7_9.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        }
+      }
+    },
+    "ba": {
+      "paths": {
+        "train": [
+          "PGD/BoundaryAttack/Finger/for_n2ntrain"
+        ],
+        "evaluation": [
+          "PGD/BoundaryAttack/Finger/for_n2nval"
+        ],
+        "targets": [
+          "PGD/BoundaryAttack/Finger/dep_0.03"
+        ]
+      },
+      "train_count": 1250,
+      "evaluation_count": 1250,
+      "train_alive": 500,
+      "evaluation_alive": 500,
+      "overlap": 500,
+      "duplicate_ids": 0,
+      "missing_clean": 0,
+      "target_candidates": [
+        {
+          "directory": "PGD/BoundaryAttack/Finger/dep_0.03",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        }
+      ],
+      "sample_images": {
+        "train": {
+          "file": "${N2N_PM_ROOT}/PGD/BoundaryAttack/Finger/for_n2ntrain/rtv_004_5_5.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        },
+        "evaluation": {
+          "file": "${N2N_PM_ROOT}/PGD/BoundaryAttack/Finger/for_n2nval/woodglue_015_7_9.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        }
+      },
+      "alternative_class_folder_split": {
+        "train_directories": [
+          "PGD/BoundaryAttack/Finger/Alive_train/Alive",
+          "PGD/BoundaryAttack/Finger/Fake_train/Fake"
+        ],
+        "evaluation_directories": [
+          "PGD/BoundaryAttack/Finger/Alive_valid/Alive",
+          "PGD/BoundaryAttack/Finger/Fake_valid/Fake"
+        ],
+        "train_count": 1250,
+        "evaluation_count": 1250,
+        "overlap": 0,
+        "missing_targets": 0,
+        "flat_train_overlap_ids": 500,
+        "flat_overlap_alive": 500,
+        "flat_train_matches_class_train": true,
+        "flat_eval_missing_expected": 500
+      },
+      "warning": "Flat for_n2ntrain and for_n2nval overlap by 500 Alive IDs; do not use that split without correction."
+    },
+    "bim": {
+      "paths": {
+        "train": [
+          "BIM/Fingerprint/for_n2ntrain"
+        ],
+        "evaluation": [
+          "BIM/Fingerprint/for_n2nval"
+        ],
+        "targets": [
+          "BIM/Fingerprint/dep_0.03"
+        ]
+      },
+      "train_count": 1250,
+      "evaluation_count": 1250,
+      "train_alive": 500,
+      "evaluation_alive": 500,
+      "overlap": 0,
+      "duplicate_ids": 0,
+      "missing_clean": 0,
+      "target_candidates": [
+        {
+          "directory": "BIM/Fingerprint/dep_0.03",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        }
+      ],
+      "sample_images": {
+        "train": {
+          "file": "${N2N_PM_ROOT}/BIM/Fingerprint/for_n2ntrain/rtv_004_5_5.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        },
+        "evaluation": {
+          "file": "${N2N_PM_ROOT}/BIM/Fingerprint/for_n2nval/woodglue_015_7_9.png",
+          "mode": "RGB",
+          "size": [
+            581,
+            581
+          ]
+        }
+      }
+    },
+    "aa": {
+      "paths": {
+        "train": [
+          "AA/Finger/for_n2ntrain"
+        ],
+        "evaluation": [
+          "AA/Finger/for_n2nval"
+        ],
+        "targets": [
+          "AA/Finger/dep_0.03"
+        ]
+      },
+      "train_count": 1250,
+      "evaluation_count": 1250,
+      "train_alive": 500,
+      "evaluation_alive": 500,
+      "overlap": 0,
+      "duplicate_ids": 0,
+      "missing_clean": 0,
+      "target_candidates": [
+        {
+          "directory": "AA/Finger/dep_0.03",
+          "count": 2500,
+          "missing_ids": 0,
+          "duplicate_ids": 0
+        }
+      ],
+      "sample_images": {
+        "train": {
+          "file": "${N2N_PM_ROOT}/AA/Finger/for_n2ntrain/rtv_004_5_5.png",
+          "mode": "L",
+          "size": [
+            581,
+            581
+          ]
+        },
+        "evaluation": {
+          "file": "${N2N_PM_ROOT}/AA/Finger/for_n2nval/woodglue_015_7_9.png",
+          "mode": "L",
+          "size": [
+            581,
+            581
+          ]
+        }
+      }
+    }
+  }
+}

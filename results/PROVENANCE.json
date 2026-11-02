@@ -1,0 +1,69 @@
+[
+  {
+    "result": "mnist_matched",
+    "original_run_id": "mnist_suite_20261031_003330_504345",
+    "files": [
+      "summary.csv",
+      "suite_config.json"
+    ]
+  },
+  {
+    "result": "cross_attack",
+    "original_run_id": "cross_attack_20261031_173645_214050",
+    "files": [
+      "mnist/matrix.csv",
+      "mnist/comparison.csv",
+      "mnist/evaluation_info.json",
+      "livdet/matrix.csv",
+      "livdet/comparison.csv",
+      "livdet/evaluation_info.json",
+      "config.json"
+    ]
+  },
+  {
+    "result": "cross_dataset_table5",
+    "original_run_id": "table5_transfer_20261101_111259_924652",
+    "files": [
+      "comparison.csv",
+      "baseline.json",
+      "config.json"
+    ]
+  },
+  {
+    "result": "clean_table6",
+    "original_run_id": "table6_clean_20261101_111810_024603",
+    "files": [
+      "comparison.csv",
+      "mnist/baseline.json",
+      "livdet/baseline.json",
+      "config.json"
+    ]
+  },
+  {
+    "result": "at_recovered",
+    "original_run_id": "at_recovered_20261102_112239_502041",
+    "files": [
+      "livdet/matrix.csv",
+      "livdet/cross_comparison.csv",
+      "livdet/matched_comparison.csv",
+      "livdet/appendix_row_means.csv",
+      "provenance.json"
+    ]
+  },
+  {
+    "result": "dip_saved",
+    "original_run_id": "saved_dip_eval_20261101_122313_678980",
+    "files": [
+      "summary.csv",
+      "config.json"
+    ]
+  },
+  {
+    "result": "dip_bim_aa_pilot",
+    "original_run_id": "dip_regenerated_20261102_114053_951116",
+    "files": [
+      "summary.csv",
+      "config.json"
+    ]
+  }
+]

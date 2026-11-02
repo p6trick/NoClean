@@ -1,0 +1,39 @@
+{
+  "fgsm": {
+    "train_attacks": "Self2Self/noise2noise/temporary/data/MNIST/FGSM_train(attack)",
+    "eval_attacks": "Self2Self/noise2noise/temporary/data/MNIST/real_FGSM_valid",
+    "targets": "PGD/MNIST/FGSM/FGSM_DEP_PGD",
+    "paper_attacked": 57.40, "paper_defended": 98.18, "paper_defended_clean": 98.64
+  },
+  "pgd": {
+    "train_attacks": "Self2Self/noise2noise/temporary/data/MNIST/MNIST_pgd",
+    "eval_attacks": "Self2Self/noise2noise/temporary/data/MNIST/real_PGD_valid",
+    "targets": "Self2Self/noise2noise/temporary/data/MNIST/PGD_depoisoning",
+    "paper_attacked": 8.95, "paper_defended": 94.26, "paper_defended_clean": 97.32
+  },
+  "cw": {
+    "train_attacks": "PGD/MNIST/CW_atk_300_all",
+    "eval_attacks": "Self2Self/noise2noise/temporary/data/MNIST/real_CW_valid",
+    "targets": "PGD/MNIST/CW_dep_PGD_25_0.4",
+    "paper_attacked": 2.01, "paper_defended": 97.79, "paper_defended_clean": 95.86
+  },
+  "ba": {
+    "train_attacks": "PGD/BoundaryAttack/MNIST_atk_all_eps2",
+    "eval_attacks": "Self2Self/noise2noise/temporary/data/MNIST/real_BA_valid",
+    "targets": "PGD/BoundaryAttack/MNIST_DEP_04",
+    "paper_attacked": 97.75, "paper_defended": 97.89, "paper_defended_clean": 95.95
+  },
+  "bim": {
+    "train_attacks": "BIM/atk_0.3_all",
+    "eval_attacks": "Self2Self/noise2noise/temporary/data/MNIST/real_BIM_valid",
+    "targets": "BIM/dep_0.4",
+    "paper_attacked": 58.35, "paper_defended": 98.46, "paper_defended_clean": 97.97
+  },
+  "aa": {
+    "train_attacks": "AA/MNIST_AA_train",
+    "eval_attacks": "Self2Self/noise2noise/temporary/data/MNIST/real_AA_valid",
+    "targets": "AA/dep_0.4",
+    "paper_attacked": 74.11, "paper_defended": 95.80, "paper_defended_clean": 97.10,
+    "note": "Archived AA label: manuscript describes a custom ensemble; not verified standard AutoAttack."
+  }
+}

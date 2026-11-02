@@ -1,0 +1,41 @@
+# Local environments and secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Private or large research artifacts
+/artifacts/
+/checkpoints/
+/data/
+/reproduction/runs/
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.onnx
+*.ckpt
+*.safetensors
+*.npz
+*.npy
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.tif
+*.tiff
+*.pdf
+*.zip
+*.tar
+*.gz
+*.log
+
+# IDE/OS metadata
+.DS_Store
+.idea/
+.vscode/

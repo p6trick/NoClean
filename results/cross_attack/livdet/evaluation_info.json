@@ -1,0 +1,6 @@
+{
+  "count": 1250,
+  "partial_evaluation": false,
+  "output_processing": "RGB clamp / uint8 PIL / grayscale",
+  "diagonal": "Attack-matched controls, excluded from Table3/4 averages."
+}

@@ -1,0 +1,3 @@
+attack,count,requested_count,partial_evaluation,new_dip_outputs,attacked_accuracy_percent,dip_accuracy_percent,paper_dip_accuracy_percent,confusion_matrix,confusion_matrix_order,mean_generation_seconds
+bim,2,2,True,True,50.0,50.0,40.0,"[[0, 1], [0, 1]]","['Fake', 'Alive']",131.68500452802982
+aa,2,2,True,True,100.0,50.0,40.0,"[[0, 1], [0, 1]]","['Fake', 'Alive']",124.1652368834475

@@ -1,0 +1,132 @@
+{
+  "current_count": 2500,
+  "candidate_count": 2500,
+  "byte_identical_count": 986,
+  "unmatched_count": 1514,
+  "matching_examples": [
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/013_0_3.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_013_0_3.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/004_6_8.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_004_6_8.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/015_3_7.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval/alive_015_3_7.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/004_7_6.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_004_7_6.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/020_2_7.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval/alive_020_2_7.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/015_5_9.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval/alive_015_5_9.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/007_9_7.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_007_9_7.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/004_8_3.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_004_8_3.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/015_2_0.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval/alive_015_2_0.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/023_3_9.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval/alive_023_3_9.png"
+      ]
+    }
+  ],
+  "unmatched_examples": [
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_38.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_69.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_128.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Latex_64.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/RTV_5.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/007_9_2.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_64.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Gelatine_176.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_218.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_149.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/RTV_92.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_174.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_151.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/LiquidEcoflex_139.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/LiquidEcoflex_188.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/RTV_91.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_18.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/LiquidEcoflex_88.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Gelatine_80.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/RTV_200.png"
+  ],
+  "grayscale_pixel_identical_count": 986,
+  "grayscale_pixel_unmatched_count": 1514,
+  "pixel_matching_examples": [
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/013_0_3.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_013_0_3.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/004_6_8.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_004_6_8.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/015_3_7.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2nval/alive_015_3_7.png"
+      ]
+    },
+    {
+      "candidate": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/004_7_6.png",
+      "current": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/ECCV/FGSM_0.03/for_n2ntrain/alive_004_7_6.png"
+      ]
+    }
+  ],
+  "pixel_unmatched_examples": [
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_38.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_69.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_128.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Latex_64.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/RTV_5.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/007_9_2.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_64.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Gelatine_176.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_218.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/Ecoflex00-50_149.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/RTV_92.png",
+    "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/data/new_ictc/Total_FGSM/WoodGlue_174.png"
+  ]
+}

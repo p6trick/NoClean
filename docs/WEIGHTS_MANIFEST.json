@@ -1,0 +1,151 @@
+{
+  "weight_count": 29,
+  "total_weight_bytes": 4476826077,
+  "files": [
+    {
+      "file": "at_models/GB_AA.h5",
+      "sha256": "ad2a84fddc89d5eafe2aa496735c35f30490333d06320875fb81b2f4a0844cf9",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_BA.h5",
+      "sha256": "e07e7ce1b7bb9621a97e54a90e4fe95d4b2f0058a987a785b93ca46389aeb84c",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_BA2.h5",
+      "sha256": "e5950132ff7009f974dfd967f6466c0b2eeabf3939fa0666dafe6c22ea1a76fb",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_BIM.h5",
+      "sha256": "6d6a0e1adc4e5a263e61e501be657157e6b1ac3cbe3424a2f512bb67d3b23c1e",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_CW.h5",
+      "sha256": "fd7b07e2133c32216021293f02c242d486697c6be84f413a4abc3b59bfe98f3f",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_CW2.h5",
+      "sha256": "132a20a677d9b9d6ee20de953efa8597c92667983e823799ba2f1288abad6167",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_FGSM.h5",
+      "sha256": "5f08c42c01d26a95d15ef5ad5e419d72a8c1b6cc327c5186676364b34727b946",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_PGD.h5",
+      "sha256": "8784f7fb057a07d62eaa81942643d9c0a302470ddff5ecaeb44a1a9d49ee8625",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/GB_PGD2.h5",
+      "sha256": "14f245c1877c400098eb05f394379519510ae7783d881f3c5859cd4400328fd2",
+      "size_bytes": 283590464
+    },
+    {
+      "file": "at_models/MNIST_AA.h5",
+      "sha256": "d743ea9d1c47458557c969ef4b98eaeab134b208b8662687fe0323794f2b0d3a",
+      "size_bytes": 283787072
+    },
+    {
+      "file": "at_models/MNIST_BA2_adv.h5",
+      "sha256": "bba035c26816bda091a13e7bd420c43dd48c113e1f025bffef1acebab9cb204b",
+      "size_bytes": 283787072
+    },
+    {
+      "file": "at_models/MNIST_BIM.h5",
+      "sha256": "3328bdc44df50cac3481def8b7016c139375634e7b6a778742cceadd81c8275a",
+      "size_bytes": 283787072
+    },
+    {
+      "file": "at_models/MNIST_CW.h5",
+      "sha256": "1e654836c07d8a77de7a5617dbd2889869ae8b8630eeb814df55b541954384ba",
+      "size_bytes": 283787072
+    },
+    {
+      "file": "at_models/MNIST_FGSM.h5",
+      "sha256": "03f50f6716fb2bbd6d977e803322a1ce06379d14c68df3074acb8dfec244eef9",
+      "size_bytes": 283787072
+    },
+    {
+      "file": "at_models/MNIST_PGD.h5",
+      "sha256": "0eb59179a73b3497add3d8325c7c1b3b97dc1e7ea67d6da987be2510e4d2efdd",
+      "size_bytes": 283787072
+    },
+    {
+      "file": "checkpoints/livdet/aa/denoiser.pt",
+      "sha256": "807689c11f774d2ab0693e9578d48faf5da903c5d86fc8309fab7a1b5074e5dc",
+      "size_bytes": 2811409
+    },
+    {
+      "file": "checkpoints/livdet/ba/denoiser.pt",
+      "sha256": "c272574131fc600008b003931e9d9096a7573fedd45ece4f8c2d94dae1951ef8",
+      "size_bytes": 2811409
+    },
+    {
+      "file": "checkpoints/livdet/bim/denoiser.pt",
+      "sha256": "dfe9a7537f4c5641ff4d7edb4f57072ab7bc508fcbb2ee60b783fa2f912c8728",
+      "size_bytes": 2811409
+    },
+    {
+      "file": "checkpoints/livdet/classifier.pth",
+      "sha256": "fa76b19066454e9a1f51acd681de3c9105d032fa551b2aa882f0e7cb26ebd7e6",
+      "size_bytes": 93985059
+    },
+    {
+      "file": "checkpoints/livdet/cw/denoiser.pt",
+      "sha256": "917b030669bc3264266d20fc8811aaafd1c29a46155de0cf68a28c2ddde33356",
+      "size_bytes": 2811409
+    },
+    {
+      "file": "checkpoints/livdet/fgsm/denoiser.pt",
+      "sha256": "abe387b9055b3c46cfeb9402ef74c59ab111f64a6bd10d05bed997aeb8e07a3a",
+      "size_bytes": 2811409
+    },
+    {
+      "file": "checkpoints/livdet/pgd/denoiser.pt",
+      "sha256": "f71bdd0b631876c4f43f1db87804df431c00e74fa2fb1c68f13d44ea4501e8ea",
+      "size_bytes": 2811409
+    },
+    {
+      "file": "checkpoints/mnist/aa/denoiser.pt",
+      "sha256": "2dbc4a3baa14f9dafb478bed21775a53f3dd9ed6b3eda00fd3d19b6759536aa9",
+      "size_bytes": 2814001
+    },
+    {
+      "file": "checkpoints/mnist/ba/denoiser.pt",
+      "sha256": "90150b844d2adbf48bbb43db1c2887757f906697fdc13e962c81929a71260589",
+      "size_bytes": 2814065
+    },
+    {
+      "file": "checkpoints/mnist/bim/denoiser.pt",
+      "sha256": "3ce06986476e87ed792b0c1154d5cb357d569a64039eb849b31d82990944c876",
+      "size_bytes": 2814001
+    },
+    {
+      "file": "checkpoints/mnist/classifier.pth",
+      "sha256": "3defaee851499d831e95771e5e2b44fbb58a64fe93d250d709ebe3c65183fc8c",
+      "size_bytes": 94051630
+    },
+    {
+      "file": "checkpoints/mnist/cw/denoiser.pt",
+      "sha256": "b5640a43208f725585a523beb432c65bf9235a1e6d3c47f53eb48721c258e206",
+      "size_bytes": 2814065
+    },
+    {
+      "file": "checkpoints/mnist/fgsm/denoiser.pt",
+      "sha256": "14b4ca06e903aeb8b5682c5df92067b40db20fc81038ae1d6f16311afa35ef1d",
+      "size_bytes": 2814065
+    },
+    {
+      "file": "checkpoints/mnist/pgd/denoiser.pt",
+      "sha256": "814d36ed73c08e0f0a1c9d046695c54daaf1dbd10a0345867bf7a151a6f4a862",
+      "size_bytes": 2814129
+    }
+  ]
+}

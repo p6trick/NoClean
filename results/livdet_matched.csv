@@ -1,0 +1,7 @@
+attack,count,accuracy_percent,paper_accuracy_percent,first_pool,epoch,origin
+FGSM,1250,91.28,91.11,2,100,legacy checkpoint linked by historical notes
+PGD,1250,89.76,91.36,2,100,legacy checkpoint; PGD training attack unconfirmed
+CW,1250,88.0,89.27,2,100,legacy checkpoint linked by historical notes
+BA,1250,80.64,80.55,2,99,legacy checkpoint linked by historical notes
+BIM,1250,90.16,90.16,2,100,legacy checkpoint linked by historical notes
+AA,1250,89.04,88.95,2,100,legacy checkpoint linked by historical notes

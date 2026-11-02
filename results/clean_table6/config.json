@@ -1,0 +1,29 @@
+{
+  "paper": "${N2N_ORIGINAL_WORKSPACE}/N2N_Journal.pdf",
+  "table": 6,
+  "arguments": {
+    "checkpoint_root": "${N2N_CHECKPOINT_ROOT}",
+    "datasets": [
+      "mnist",
+      "livdet"
+    ],
+    "device": "cuda",
+    "mnist_eval_size": 5000,
+    "livdet_eval_size": 1250,
+    "mnist_batch_size": 32,
+    "livdet_batch_size": 1,
+    "threads": 4,
+    "output": null
+  },
+  "protocol": "Same-dataset models applied to original clean held-out IDs; no attacks or training.",
+  "input": "PIL grayscale /255 repeated3 channels; MNIST28, LivDet581",
+  "primary_output": {
+    "mnist": "float",
+    "livdet": "png"
+  },
+  "limitations": [
+    "MNIST models are newly trained; LivDet models are recovered historical weights.",
+    "PGD-labelled LivDet model training attack remains unconfirmed.",
+    "Exact paper-final checkpoint versions and preprocessing remain partly unverified."
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "source": "${N2N_ORIGINAL_HOME}/.codex/attachments/779905fe-8207-4ace-9d52-f44973fa8d3a/Pasted text.txt",
+  "evidence": "user-provided historical notes; path existence checked, accuracy not independently verified",
+  "checkpoints": [
+    {
+      "run": "adv-0115",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0115/n2n-epoch100-0.00017.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0115/n2n-epoch100-0.00017.pt"
+      ]
+    },
+    {
+      "run": "adv-1553",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1553/n2n-epoch100-0.00271.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1553/n2n-epoch100-0.00271.pt"
+      ]
+    },
+    {
+      "run": "adv-1905",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1905/n2n-epoch500-0.00017.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1905/n2n-epoch100-0.00017.pt"
+      ]
+    },
+    {
+      "run": "adv-0452",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0452/n2n-epoch300-0.00017.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0452/n2n-epoch100-0.00024.pt"
+      ]
+    },
+    {
+      "run": "adv-1721",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1721/n2n-epoch300-0.00321.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1721/n2n-epoch100-0.00355.pt"
+      ]
+    },
+    {
+      "run": "adv-0943",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0943/n2n-epoch300-0.00030.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0943/n2n-epoch100-0.00029.pt"
+      ]
+    },
+    {
+      "run": "adv-1016",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-1016/n2n-epoch30-0.01108.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-1016/n2n-epoch100-0.01165.pt"
+      ]
+    },
+    {
+      "run": "adv-1320",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-1320/n2n-epoch30-0.01142.pt",
+      "exists": true,
+      "epoch100_candidates": []
+    },
+    {
+      "run": "adv-2231",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-2231/n2n-epoch300-0.00006.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-2231/n2n-epoch100-0.00006.pt"
+      ]
+    },
+    {
+      "run": "adv-2259",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-2259/n2n-epoch300-0.00003.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-2259/n2n-epoch100-0.00003.pt"
+      ]
+    },
+    {
+      "run": "adv-0411",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-0411/n2n-epoch300-0.00018.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-0411/n2n-epoch100-0.00016.pt"
+      ]
+    },
+    {
+      "run": "adv-0529",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-0529/n2n-epoch300-0.00006.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-0529/n2n-epoch100-0.00006.pt"
+      ]
+    },
+    {
+      "run": "adv-0502",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0502/n2n-epoch300-0.00013.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0502/n2n-epoch100-0.00014.pt"
+      ]
+    },
+    {
+      "run": "adv-2006",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-2006/n2n-epoch300-0.00017.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-2006/n2n-epoch100-0.00016.pt"
+      ]
+    },
+    {
+      "run": "adv-2213",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-2213/n2n-epoch300-0.00013.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-2213/n2n-epoch100-0.00014.pt"
+      ]
+    },
+    {
+      "run": "adv-0924",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0924/n2n-epoch300-0.00017.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-0924/n2n-epoch100-0.00017.pt"
+      ]
+    },
+    {
+      "run": "adv-0922",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-0922/n2n-epoch300-0.00030.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-0922/n2n-epoch100-0.00029.pt"
+      ]
+    },
+    {
+      "run": "adv-2113",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-2113/n2n-epoch500-0.00012.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-2113/n2n-epoch100-0.00014.pt"
+      ]
+    },
+    {
+      "run": "adv-2221",
+      "family": "noise2noise-finger",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-2221/n2n-epoch300-0.00030.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/noise2noise-finger/ckpts/adv-2221/n2n-epoch100-0.00029.pt"
+      ]
+    },
+    {
+      "run": "adv-1248",
+      "family": "temporary",
+      "noted_checkpoint": "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1248/n2n-epoch300-0.00002.pt",
+      "exists": true,
+      "epoch100_candidates": [
+        "${N2N_PM_ROOT}/Self2Self/noise2noise/temporary/ckpts/adv-1248/n2n-epoch100-0.00001.pt"
+      ]
+    }
+  ]
+}

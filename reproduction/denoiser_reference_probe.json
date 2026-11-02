@@ -1,0 +1,233 @@
+{
+  "note": "Validation subset only; exploratory inference comparisons, not paper reproduction. Crop512 uses a fixed center crop; original CLI/TF resize settings unverified.",
+  "count": 16,
+  "seed": 2026,
+  "accuracy_percent": {
+    "attack": 62.5,
+    "target": 100.0,
+    "current_float": 62.5,
+    "channel_clip_float": 62.5,
+    "png_roundtrip": 62.5,
+    "crop512_resize_control": 62.5,
+    "crop512_denoise_png_resize": 62.5
+  },
+  "correct": {
+    "attack": 10,
+    "target": 16,
+    "current_float": 10,
+    "channel_clip_float": 10,
+    "png_roundtrip": 10,
+    "crop512_resize_control": 10,
+    "crop512_denoise_png_resize": 10
+  },
+  "records": [
+    {
+      "id": "latex_009_6_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 1,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "eco_013_2_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 1,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "gelatine_013_6_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    },
+    {
+      "id": "latex_013_1_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    },
+    {
+      "id": "latex_004_5_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    },
+    {
+      "id": "alive_004_5_7.png",
+      "label": 1,
+      "predictions": {
+        "attack": 0,
+        "target": 1,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 1,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "liq_eco_004_3_5.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    },
+    {
+      "id": "latex_004_1_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    },
+    {
+      "id": "alive_009_9_0.png",
+      "label": 1,
+      "predictions": {
+        "attack": 0,
+        "target": 1,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 1,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "eco_004_6_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 1,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "alive_006_7_2.png",
+      "label": 1,
+      "predictions": {
+        "attack": 0,
+        "target": 1,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 1,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "gelatine_007_2_4.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "rtv_004_2_0.png",
+      "label": 0,
+      "predictions": {
+        "attack": 0,
+        "target": 0,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    },
+    {
+      "id": "alive_004_5_6.png",
+      "label": 1,
+      "predictions": {
+        "attack": 0,
+        "target": 1,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 1
+      }
+    },
+    {
+      "id": "alive_007_6_4.png",
+      "label": 1,
+      "predictions": {
+        "attack": 0,
+        "target": 1,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    },
+    {
+      "id": "alive_009_1_7.png",
+      "label": 1,
+      "predictions": {
+        "attack": 0,
+        "target": 1,
+        "current_float": 0,
+        "channel_clip_float": 0,
+        "png_roundtrip": 0,
+        "crop512_resize_control": 0,
+        "crop512_denoise_png_resize": 0
+      }
+    }
+  ]
+}
