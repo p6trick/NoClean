@@ -195,8 +195,10 @@ def loader_for_pairs(pairs, args, shuffle):
                       generator=torch.Generator().manual_seed(args.seed))
 
 
-def train_denoiser(train_pairs, valid_pairs, args, device, out):
+def train_denoiser(train_pairs, valid_pairs, args, device, out, initial_state=None):
     denoiser = Denoiser().to(device)
+    if initial_state is not None:
+        denoiser.load_state_dict(initial_state, strict=True)
     optimizer = torch.optim.Adam(denoiser.parameters(), lr=args.learning_rate,
                                  betas=(0.9, 0.99), eps=1e-8)
     train_loader = loader_for_pairs(train_pairs, args, True)
@@ -216,6 +218,7 @@ def train_denoiser(train_pairs, valid_pairs, args, device, out):
             total += loss.item() * len(source)
             count += len(source)
         record = {'epoch': epoch, 'train_mse': total / count}
+        improved = False
         denoiser.eval()
         if valid_loader:
             total, count = 0.0, 0
@@ -228,8 +231,17 @@ def train_denoiser(train_pairs, valid_pairs, args, device, out):
             select = record['validation_mse'] < best_loss
             if select:
                 best_loss = record['validation_mse']
+                improved = True
         else:
             select = True  # Fixed epoch training; no evaluation-set selection.
+        if getattr(args, 'checkpoint_selection', 'validation-mse') == 'last':
+            select = True  # Paired target ablation: identical, predeclared training budget.
+        if getattr(args, 'keep_checkpoint_variants', False):
+            snapshot = {'state_dict': denoiser.state_dict(), 'epoch': epoch, 'config': vars(args)}
+            if improved:
+                torch.save(snapshot, out / 'best_validation_denoiser.pt')
+            if epoch == args.epochs:
+                torch.save(snapshot, out / 'last_denoiser.pt')
         if select:
             selected_epoch = epoch
             torch.save({'state_dict': denoiser.state_dict(), 'epoch': epoch,

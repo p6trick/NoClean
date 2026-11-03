@@ -249,15 +249,16 @@ def verify_cached_targets(groups, classifier_sha256):
 
 
 class PairDataset(Dataset):
-    def __init__(self, entries, crop_size, training):
+    def __init__(self, entries, crop_size, training, target_key='target_path'):
         self.entries, self.crop_size, self.training = entries, crop_size, training
+        self.target_key = target_key
 
     def __len__(self):
         return len(self.entries)
 
     def __getitem__(self, index):
         entry = self.entries[index]
-        source, target = read_tensor(entry['attack_path'], True), read_tensor(entry['target_path'], True)
+        source, target = read_tensor(entry['attack_path'], True), read_tensor(entry[self.target_key], True)
         if self.crop_size:
             margin = IMAGE_SIZE - self.crop_size
             if self.training:
@@ -330,15 +331,18 @@ def make_scheduler(optimizer, args):
         optimizer, mode='min', patience=patience, factor=.5)
 
 
-def fit(group, args, device, output, emit):
+def fit(group, args, device, output, emit, initial_state=None):
     first_pool = getattr(args, 'first_pool', 2)
     model = Denoiser(first_pool=first_pool).to(device)
+    if initial_state is not None:
+        model.load_state_dict(initial_state, strict=True)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, betas=(.9, .99), eps=1e-8)
     scheduler = make_scheduler(optimizer, args)
     generator = torch.Generator().manual_seed(args.seed)
-    loader = DataLoader(PairDataset(group['train'], args.crop_size, True),
+    target_key = 'path' if getattr(args, 'training_target', 'rectified') == 'clean' else 'target_path'
+    loader = DataLoader(PairDataset(group['train'], args.crop_size, True, target_key),
                         batch_size=args.batch_size, shuffle=True, num_workers=0, generator=generator)
-    valid_loader = DataLoader(PairDataset(group['validation'], args.crop_size, False),
+    valid_loader = DataLoader(PairDataset(group['validation'], args.crop_size, False, target_key),
                               batch_size=args.batch_size, num_workers=0) if group['validation'] else None
     history, best, selected = [], float('inf'), None
     for epoch in range(1, args.epochs + 1):
@@ -374,13 +378,18 @@ def fit(group, args, device, output, emit):
         if scheduler is not None:
             scheduler.step(record.get('validation_mse', record['train_mse']))
         record['next_learning_rate'] = optimizer.param_groups[0]['lr']
+        snapshot = {'state_dict': model.state_dict(), 'epoch': epoch,
+                    'model_configuration': {'first_pool': first_pool},
+                    'arguments': {key: str(value) if isinstance(value, Path) else value
+                                  for key, value in vars(args).items()}}
+        if getattr(args, 'keep_checkpoint_variants', False):
+            if save:
+                torch.save(snapshot, output / 'best_validation_denoiser.pt')
+            if epoch == args.epochs:
+                torch.save(snapshot, output / 'last_denoiser.pt')
         if save:
             selected = epoch
-            torch.save({'state_dict': model.state_dict(), 'epoch': epoch,
-                        'model_configuration': {'first_pool': first_pool},
-                        'arguments': {key: str(value) if isinstance(value, Path) else value
-                                      for key, value in vars(args).items()}},
-                       output / 'denoiser.pt')
+            torch.save(snapshot, output / 'denoiser.pt')
         history.append(record)
         write_json(output / 'training_history.json', history)
         emit(json.dumps(record))
@@ -402,8 +411,17 @@ def evaluate(model, denoiser, group, args, device, output, emit):
         source = torch.stack([read_tensor(e['attack_path']) for e in chunk]).to(device)
         target = torch.stack([read_tensor(e['target_path']) for e in chunk]).to(device)
         with torch.no_grad():
-            defended = grayscale(denoiser(source_rgb))
-            defended_clean = grayscale(denoiser(clean.repeat(1, 3, 1, 1)))
+            result = denoiser(source_rgb)
+            clean_result = denoiser(clean.repeat(1, 3, 1, 1))
+            if not torch.isfinite(result).all() or not torch.isfinite(clean_result).all():
+                raise ValueError('Nonfinite LivDet denoiser output')
+            if getattr(args, 'output_processing', 'float') == 'png':
+                from evaluate_legacy_livdet import classifier_input
+                defended = torch.cat([classifier_input(value[None], True) for value in result])
+                defended_clean = torch.cat([classifier_input(value[None], True) for value in clean_result])
+            else:
+                defended = grayscale(result)
+                defended_clean = grayscale(clean_result)
             images = dict(zip(names, [clean, source, target, defended, defended_clean]))
             preds = {key: model(image).argmax(1) for key, image in images.items()}
             for key in names:
@@ -427,6 +445,7 @@ def evaluate(model, denoiser, group, args, device, output, emit):
                'accuracy_percent': {key: 100 * value / count for key, value in correct.items()},
                'max_attack_linf': attack_linf, 'max_rectify_linf': target_linf,
                'mean_rectify_iterations': None, 'input_mode': 'saved', 'dataset': 'livdet2015_greenbit',
+               'output_processing': getattr(args, 'output_processing', 'float'),
                'attack_scope': 'archived classifier attacks; not adaptive defense evaluation',
                'rectified_oracle_note': 'saved target accuracy; historical rectification settings unverified',
                'example_columns': names}

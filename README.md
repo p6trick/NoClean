@@ -97,6 +97,10 @@ DIP BIM·AA 전체 2,500장은 측정된 장당 약 2분 기준 약 88시간 규
 
 ## 재학습과 연구용 진단
 
+Clean target과 rectified target의 통제 비교는 [MNIST target 비교 실험](docs/MNIST_TARGET_ABLATION.md)을 참고한다. `reproduction/mnist_target_ablation.py`가 같은 초기 상태와 데이터 순서로 두 모델을 새로 학습한다.
+
+LivDet은 [LivDet target 비교 실험](docs/LIVDET_TARGET_ABLATION.md)의 `reproduction/livdet_target_ablation.py`를 사용한다. 기본 설정은 100epoch·batch1·전체 이미지 학습이며, 먼저 FGSM 두 조건을 확인할 수 있다.
+
 ```bash
 conda activate n2n
 source .env

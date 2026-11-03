@@ -12,6 +12,8 @@ def main():
         if not path.is_file() or any(part in {'.git', '__pycache__', 'artifacts', 'data', '.venv'} for part in path.relative_to(ROOT).parts):
             continue
         relative = path.relative_to(ROOT)
+        if relative.parts[:2] == ('reproduction', 'runs'):
+            continue  # Local experiment outputs are excluded from Git and the source ZIP.
         if path.suffix.lower() in FORBIDDEN or path.stat().st_size > 10 * 1024 * 1024:
             errors.append(f'Large/private artifact: {relative}')
         if path.suffix in {'.py', '.json', '.md', '.csv', '.sh', '.txt', '.yml', '.example'}:
