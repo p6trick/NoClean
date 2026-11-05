@@ -54,3 +54,5 @@ python -u reproduction/evaluate_livdet_adaptive_pgd.py \
 `RESULTS` 폴더의 `summary.csv`, `metrics.json`, `config.json`을 공유한다. `nonadaptive_pgd_percent`와 `adaptive_pgd_only_percent`로 요청한 표를 작성한다. `adaptive_pgd_combined_percent`는 clean·non-adaptive·adaptive에서 하나라도 오분류된 경우 실패로 집계하는 별도 결과다.
 
 공통 공격 코드는 `adaptive_pgd.py`이며, 기존 MNIST 명령과 float 공격 경로는 유지한다. LivDet에서는 gradient가 BPDA 근사라는 점을 결과에 명시해야 한다. 파일·라벨·공격 예산 검증은 유지하며, 모델 학습 출처와 과거 공격 생성 조건의 불확실성도 함께 기록한다.
+
+저장 PGD와 새 non-adaptive 공격의 차이에 대한 실제 픽셀·학습 측 진단은 [생성·전처리 조사](LIVDET_PGD_GENERATION_AUDIT.md)에 정리했다.

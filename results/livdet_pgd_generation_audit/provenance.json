@@ -1,0 +1,10 @@
+{
+  "run_ids": [
+    "livdet_pgd_generation_audit_20261105_122341_815049",
+    "livdet_pgd_generation_audit_20261105_122507_043615"
+  ],
+  "pixel_audit_run": "livdet_pgd_preprocessing_audit_20261105_122205",
+  "sample": "8 training-side images, 4 Fake +4 Alive; no final-evaluation optimization",
+  "partial_diagnostic": true,
+  "not_verified_archived_generator": true
+}

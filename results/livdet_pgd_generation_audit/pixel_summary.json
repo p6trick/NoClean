@@ -1,0 +1,16 @@
+{
+  "train": {
+    "count": 16,
+    "rgb_mode_count": 16,
+    "nonidentical_rgb_channels_count": 0,
+    "max_input_linf": 0.03137257695198059,
+    "mean_absolute_delta": 0.011057130206609145
+  },
+  "evaluation": {
+    "count": 16,
+    "rgb_mode_count": 16,
+    "nonidentical_rgb_channels_count": 0,
+    "max_input_linf": 0.03137257695198059,
+    "mean_absolute_delta": 0.008584953902754933
+  }
+}
