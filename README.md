@@ -78,6 +78,8 @@ python -u reproduction/table6_clean.py --datasets mnist livdet
 
 ## 비교 방법
 
+전체 방어에 대한 새 공격 평가는 [MNIST adaptive PGD](docs/MNIST_ADAPTIVE_PGD.md)를 참고한다. `reproduction/evaluate_mnist_adaptive_pgd.py`는 같은 clean 입력에서 classifier-only PGD와 end-to-end PGD를 새로 생성하고, 고정된 PGD denoiser를 평가한다.
+
 ```bash
 conda activate n2n_tf
 source .env
