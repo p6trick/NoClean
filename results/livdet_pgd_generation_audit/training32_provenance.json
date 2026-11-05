@@ -1,0 +1,9 @@
+{
+  "run_id": "livdet_pgd_generation_audit_20261105_123012_545709",
+  "sampling": "fixed 32 training-side images, 16 per class; no final-set evaluation",
+  "epsilon": 0.03,
+  "steps": 40,
+  "seed": 2026,
+  "partial_diagnostic": true,
+  "not_verified_archived_generator": true
+}

@@ -41,6 +41,36 @@
 
 ## 다음 확인과 실행
 
+### 고정한 과거 구현 가설의 전체 참고 평가
+
+학습 측 진단에서 선언한 조합을 고정해 전체 평가1,250장에서 참고 결과를 측정할 수 있다. 아래 모드는 epsilon.03, alpha2/255,40회,no random start,probability CE,마지막 반복으로 고정된다. 다른 조합을 최종 평가로 탐색하는 옵션은 허용하지 않는다.
+
+```bash
+python -u reproduction/audit_livdet_pgd_generation.py \
+  --device cuda --split evaluation --sample-size 1250 \
+  --variants legacy_hypothesis --steps 40
+```
+
+이 실행은 항상 이미지별 batch1로 처리한다. 같은 실행에서 저장 공격의 원래 RGB와 회색조 반복 입력,clean,새 가설 공격의float/round8/truncate8을 모두 보고한다. 출력 폴더 이름은 `livdet_legacy_pgd_reference_...`다. `summary.csv`, `config.json`을 공유하면 된다. Adaptive 공격을 실행하거나 기존 adaptive 결과를 덮어쓰지 않는다.
+
+논문값에 가까운 입력 양자화 조건만 골라 보고하지 않고 세 결과를 함께 기록한다. 이 참고 실행은 기존batch64 adaptive 실행과 동일한 생성 코드 또는 batch 조건이라고 표현하지 않는다.
+
+### 32장 후속 진단
+
+서버 실행 `livdet_pgd_generation_audit_20261105_123012_545709`의 학습 측32장(클래스별16장)에서도 차이가 유지됐다. [집계 CSV](../results/livdet_pgd_generation_audit/training32_summary.csv)의30개 조건을 이미지별 기록과 대조했다.
+
+| 조건 | 분류기 단독 | N2N 방어 후 |
+|---|---:|---:|
+| 저장 PGD | 0.00% | 100.00% |
+| 현재 생성 방식 float | 0.00% | 50.00% |
+| 현재 생성 방식 + round8 / truncate8 | 각각0.00% | 각각50.00% |
+| No random + probability CE + alpha.01 + last | 15.625% | 93.75% |
+| No random + probability CE + alpha2/255 + last | 6.25% | 96.875% |
+
+현재 방식에서 방어 후Fake16/16, Alive0/16으로 모두Fake를 예측했다. 마지막 조합은Fake16/16, Alive15/16이었다. Random start 또는 loss만 하나 바꾼 것으로 같은 회복을 얻지는 못했다. PNG만의 문제가 아니라 생성 방식의 조합 효과가 반복됐다는 근거다.
+
+과거 방식 가설은 분류기 단독 정확도와 입력 MSE도 저장 공격과 달라 정확한 generator 복구로 단정할 수 없다. 과거 재현 확인용 조건과 adaptive 강건성 평가용 logits CE를 구분하며, 방어 정확도를 높이려고 adaptive 공격을 더 약한 조건으로 교체하지 않는다.
+
 학습 또는 validation 측 표본 수를 늘려 같은 고정 진단을 수행한다. 논문 최종 평가 정확도를 맞추려고 옵션을 고르지 않는다. 저장 공격을 정확히 만든 코드·실행 로그가 없으면 non-adaptive reference와 fresh attack 결과를 별도 조건으로 보고한다. Adaptive 평가는 이번 명시된 threat model의 결과로 그대로 보존한다.
 
 ```bash

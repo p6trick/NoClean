@@ -1,4 +1,4 @@
-"""Training-side diagnostics for archived-vs-fresh PGD; no final-set tuning."""
+"""Archived-vs-fresh PGD diagnostics and fixed-hypothesis final reference evaluation."""
 import argparse
 import csv
 from datetime import datetime
@@ -46,15 +46,22 @@ def generate(model, clean, labels, alpha, random_start, probability_ce, best, st
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--device', choices=['cpu','cuda'], default='cuda')
-    parser.add_argument('--sample-size', type=int, default=16, help='Even number of training-side images, balanced by class')
+    parser.add_argument('--sample-size', type=int, help='Default16 balanced training images, or1250 for evaluation split')
+    parser.add_argument('--split', choices=['train', 'evaluation'], default='train')
     parser.add_argument('--steps', type=int, default=40)
     parser.add_argument('--seed', type=int, default=2026)
     parser.add_argument('--threads', type=int, default=4)
     parser.add_argument('--output', type=Path)
     parser.add_argument('--variants', nargs='+', help='Optional subset of diagnostic variant names')
     args = parser.parse_args()
-    if args.sample_size < 2 or args.sample_size % 2 or args.steps < 1 or args.threads < 1:
-        parser.error('sample-size must be positive/even >=2; steps and threads must be positive')
+    if args.sample_size is None:
+        args.sample_size = 16 if args.split=='train' else 1250
+    if args.sample_size < 1 or args.steps < 1 or args.threads < 1:
+        parser.error('sample-size, steps and threads must be positive')
+    if args.split=='train' and (args.sample_size < 2 or args.sample_size % 2):
+        parser.error('Training sample-size must be even and >=2')
+    if args.split=='evaluation' and (args.steps!=40 or args.variants not in [None,['legacy_hypothesis']]):
+        parser.error('Final reference mode fixes steps40 and variant legacy_hypothesis; do other diagnostics on train')
     if args.device=='cuda' and not torch.cuda.is_available():
         parser.error('CUDA unavailable')
     torch.set_num_threads(args.threads)
@@ -62,19 +69,27 @@ def main():
     torch.use_deterministic_algorithms(True)
     torch.backends.cudnn.benchmark = False
     device = torch.device(args.device)
-    output = args.output or Path(__file__).parent/'runs'/datetime.now().strftime('livdet_pgd_generation_audit_%Y%m%d_%H%M%S_%f')
+    prefix = 'livdet_legacy_pgd_reference' if args.split=='evaluation' else 'livdet_pgd_generation_audit'
+    output = args.output or Path(__file__).parent/'runs'/datetime.now().strftime(prefix+'_%Y%m%d_%H%M%S_%f')
     output.mkdir(parents=True, exist_ok=False)
     livdet.RECOVERY_REPORT_PATH = output/'image_decode_recoveries.json'
     registry = loads_json((Path(__file__).parent/'livdet_experiments.json').read_text())
     group = livdet.resolve_groups(PM_ROOT, registry['pgd'],SimpleNamespace(seed=2026,train_size=1125,validation_size=125,eval_size=1250))
-    # Fixed training-side sample only, not selected by attack or defense performance.
+    # Never select IDs by classifier/defense performance.
     entries = []
-    for label in [0,1]:
-        entries += [e for e in group['train'] if e['label']==label][:args.sample_size//2]
+    if args.split=='train':
+        for label in [0,1]:
+            entries += [e for e in group['train'] if e['label']==label][:args.sample_size//2]
+    else:
+        recorded=loads_json((CHECKPOINT_ROOT/'livdet/pgd/source_data_manifest.json').read_text())
+        if [(e['id'],e['label']) for e in group['evaluation']] != [(e['id'],e['label']) for e in recorded]:
+            raise ValueError('Evaluation IDs/order/labels differ from recorded PGD evaluation')
+        entries=group['evaluation'][:args.sample_size]
     if len(entries)!=args.sample_size:
-        parser.error('Insufficient training-side images')
+        parser.error('Insufficient images in requested split')
     final_ids={e['id'] for e in group['evaluation']}
-    assert not final_ids.intersection(e['id'] for e in entries)
+    if args.split=='train':
+        assert not final_ids.intersection(e['id'] for e in entries)
     write_json(output/'manifest.json',entries)
     classifier_path=CHECKPOINT_ROOT/'livdet/classifier.pth'
     denoiser_path=CHECKPOINT_ROOT/'livdet/pgd/denoiser.pt'
@@ -94,20 +109,25 @@ def main():
         ('no_random_probability_last',.01,False,True,False),
         ('alpha2_probability_last',2/255,True,True,False),
     ]
-    if args.variants:
+    if args.split=='evaluation':
+        variants=[row for row in variants if row[0]=='legacy_hypothesis']
+    elif args.variants:
         names={row[0] for row in variants}
         if set(args.variants)-names:
             parser.error('Unknown variant: '+','.join(sorted(set(args.variants)-names)))
         variants=[row for row in variants if row[0] in args.variants]
     write_json(output/'config.json',{'arguments':{k:str(v) if isinstance(v,Path) else v for k,v in vars(args).items()},
-        'sampling':'fixed balanced training-side images; final evaluation excluded',
+        'sampling':('fixed balanced training-side images; final evaluation excluded' if args.split=='train' else
+                    'recorded final evaluation IDs in original order; no parameter selection'),
+        'partial_evaluation':args.split!='evaluation' or args.sample_size!=1250,
         'starts':'per-ID hash seed; identical perturbations across diagnostic variants, independent of batching',
         'variants':variants,'epsilon':.03,'classifier_sha256':fingerprint(classifier_path),
         'denoiser_sha256':fingerprint(denoiser_path),
-        'limitations':['Small diagnostic is not final accuracy and does not select best attack parameters.',
+        'limitations':['Train split is diagnostic only; final-reference mode is separately labeled and fixes one hypothesis.',
                        'legacy_hypothesis is not verified as the archived generator.',
                        'Round/truncate variants model common input PNG encodings; historical encoder unconfirmed.',
-                       'Training-side performance may be optimistic because denoiser may have seen these IDs.']})
+                       'Training-side performance may be optimistic because denoiser may have seen these IDs.',
+                       'This is non-adaptive reference evaluation; it does not replace adaptive logits-CE results.']})
     records=[]
     def measure(entry, name, rgb, clean):
         with torch.no_grad():
