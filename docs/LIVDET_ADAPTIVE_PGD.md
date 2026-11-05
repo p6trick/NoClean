@@ -23,6 +23,22 @@ python -u reproduction/evaluate_livdet_adaptive_pgd.py \
 
 Ours 기본 모델은 원래 모아 둔 `N2N_assets/checkpoints/livdet/pgd/denoiser.pt`다. 이는 회수한 PGD-labelled 후보이며 실제 학습 공격은 미확인이다. 기존 저장 공격에서 방어 후89.76%, 논문91.36%를 참고값으로 기록하지만 새 PGD 결과와 동일하다고 가정하지 않는다.
 
+## 과거 구현 가설과 같은 조건의 adaptive 추가 평가
+
+과거 구현 가설의 non-adaptive90.00%와 같은 설정으로 adaptive를 추가 확인하려면 아래 명령을 사용한다. 하나의 실행에서 두 공격을 다시 생성한다.
+
+```bash
+python -u reproduction/evaluate_livdet_adaptive_pgd.py \
+  --device cuda --attack-profile legacy-reference \
+  --eval-size 1250 --batch-size 1
+```
+
+이 프로필은 epsilon.03,alpha2/255,40회,no random start,1회 시작,probability CE,마지막 반복으로 고정된다. `config.json`에 실제 적용 설정을 기록한다. Non-adaptive는classifier,adaptive는denoiser+PNG forward+classifier에 같은 loss를 사용한다. 기본standard 프로필과 섞지 않는다.
+
+최종 표의 두 열은 이 실행에서 나온 `nonadaptive_pgd_percent`와 `adaptive_pgd_only_percent`를 사용한다. 기존standard58.08%→0.00% 결과도 별도 조건으로 유지한다. 이 프로필의 높은 정확도는standard 공격에 대한 취약성을 해소한 것이 아니다.
+
+Clean-target도 같은 프로필로 평가하려면 `--clean-only --clean-checkpoint /path/to/pgd/seed_2026/clean/denoiser.pt`를 추가한다.
+
 ## 첫 번째 제안 실험의 clean-target 모델 평가
 
 교수님 첫 번째 clean/rectified 비교 실험에서 **새로 학습한 LivDet PGD clean-target 가중치**를 사용한다. 원래 수집한 가중치 묶음에는 이 파일이 포함되지 않는다. 서버에 있는 실제 실행 경로를 지정한다.

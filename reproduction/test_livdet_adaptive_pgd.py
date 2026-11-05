@@ -5,6 +5,7 @@ from torch import nn
 
 from adaptive_pgd import DefendedLivDet, png_bpda, pgd_candidates
 from evaluate_legacy_livdet import classifier_input
+from audit_livdet_pgd_generation import generate
 
 
 class Threshold(nn.Module):
@@ -39,6 +40,16 @@ class LivDetAdaptiveTests(unittest.TestCase):
         self.assertEqual(model(attacked).argmax(1).item(), 0)
         self.assertLessEqual((attacked-clean).abs().max().item(), .030001)
         self.assertEqual(diagnostics['zero_gradient_samples'], 0)
+
+    def test_legacy_profile_attack_matches_reference_generator(self):
+        model = Threshold().eval().requires_grad_(False)
+        clean = torch.full((2,1,16,16),.51)
+        labels = torch.tensor([1,1])
+        expected = generate(model, clean, labels, 2/255, False, True, False, clean, 40)
+        actual, diagnostics = pgd_candidates(model, clean, labels, [clean], .03, 2/255, 40,
+                                             loss_mode='probability', selection='last')
+        self.assertTrue(torch.equal(expected, actual))
+        self.assertEqual(diagnostics['gradient_calls'],40)
 
 
 if __name__ == '__main__':

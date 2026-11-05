@@ -48,23 +48,29 @@ def livdet_image_batches(entries, batch_size, device):
     yield from batches(entries, 'path', batch_size, device)
 
 
-def candidate_score(model, images, labels):
+def candidate_score(model, images, labels, loss_mode='logits'):
     with torch.no_grad():
         logits = model(images)
         if not torch.isfinite(logits).all():
             raise ValueError('Nonfinite attack logits')
-        return F.cross_entropy(logits, labels, reduction='none'), logits.argmax(1).ne(labels)
+        output = logits.softmax(1) if loss_mode == 'probability' else logits
+        return F.cross_entropy(output, labels, reduction='none'), logits.argmax(1).ne(labels)
 
 
-def pgd_candidates(model, clean, labels, starts, epsilon, alpha, steps):
+def pgd_candidates(model, clean, labels, starts, epsilon, alpha, steps,
+                   loss_mode='logits', selection='best'):
     """Retain any successful iterate; otherwise largest CE. All budgets center on clean."""
+    if loss_mode not in ['logits', 'probability'] or selection not in ['best', 'last']:
+        raise ValueError('Invalid loss or candidate selection')
+    if selection == 'last' and len(starts) != 1:
+        raise ValueError('Last-iterate reference evaluation requires one start')
     best = clean.detach().clone()
-    scores, successes = candidate_score(model, best, labels)
+    scores, successes = candidate_score(model, best, labels, loss_mode)
     diagnostics = {'gradient_calls': 0, 'zero_gradient_samples': 0, 'max_gradient_linf': 0.0}
 
     def retain(candidate):
         nonlocal best, scores, successes
-        values, failed = candidate_score(model, candidate, labels)
+        values, failed = candidate_score(model, candidate, labels, loss_mode)
         take = (failed & ~successes) | ((failed == successes) & (values > scores))
         best = torch.where(take[:, None, None, None], candidate.detach(), best)
         scores = torch.where(take, values, scores)
@@ -72,11 +78,12 @@ def pgd_candidates(model, clean, labels, starts, epsilon, alpha, steps):
 
     for start in starts:
         value = project(start.detach(), clean, epsilon)
-        retain(value)
+        if selection == 'best':
+            retain(value)
         for _ in range(steps):
             value = value.detach().requires_grad_(True)
             logits = model(value)
-            loss = F.cross_entropy(logits, labels)
+            loss = F.cross_entropy(logits.softmax(1) if loss_mode == 'probability' else logits, labels)
             gradient, = torch.autograd.grad(loss, value)
             if not torch.isfinite(gradient).all():
                 raise ValueError('Nonfinite input gradient')
@@ -85,7 +92,10 @@ def pgd_candidates(model, clean, labels, starts, epsilon, alpha, steps):
             diagnostics['zero_gradient_samples'] += magnitudes.eq(0).sum().item()
             diagnostics['max_gradient_linf'] = max(diagnostics['max_gradient_linf'], magnitudes.max().item())
             value = project(value.detach() + alpha * gradient.sign(), clean, epsilon).detach()
-            retain(value)
+            if selection == 'best':
+                retain(value)
+        if selection == 'last':
+            best = value.detach()
     delta = (best-clean).abs().max().item()
     if delta > epsilon + 1e-6 or best.min() < 0 or best.max() > 1:
         raise ValueError('PGD candidate exceeds threat-model constraints')
@@ -121,6 +131,8 @@ def main(dataset='mnist'):
     parser.add_argument('--clean-checkpoint', type=Path, help='Optional newly trained PGD clean-target checkpoint')
     parser.add_argument('--clean-only', action='store_true', help='Evaluate clean-target model only; requires --clean-checkpoint')
     parser.add_argument('--device', choices=['cuda', 'cpu'], default='cuda')
+    parser.add_argument('--attack-profile', choices=['standard', 'legacy-reference'], default='standard',
+                        help='legacy-reference fixes LivDet .03,2/255,40,no random start,probability CE,last iterate,batch1')
     parser.add_argument('--epsilon', type=float, default=.4 if dataset == 'mnist' else .03)
     parser.add_argument('--alpha', type=float, default=.01)
     parser.add_argument('--steps', type=int, default=40)
@@ -133,6 +145,15 @@ def main(dataset='mnist'):
     parser.add_argument('--check-only', action='store_true')
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
+    if args.attack_profile == 'legacy-reference':
+        if dataset != 'livdet':
+            parser.error('legacy-reference currently supports LivDet only')
+        if args.batch_size != 1:
+            parser.error('legacy-reference requires --batch-size 1 to match the reference evaluation')
+        args.epsilon, args.alpha, args.steps = .03, 2/255, 40
+        args.random_start, args.restarts = False, 1
+    loss_mode = 'probability' if args.attack_profile == 'legacy-reference' else 'logits'
+    selection = 'last' if args.attack_profile == 'legacy-reference' else 'best'
     if args.clean_only and not args.clean_checkpoint:
         parser.error('--clean-only requires --clean-checkpoint')
     if (not all(math.isfinite(v) and v > 0 for v in [args.epsilon, args.alpha]) or
@@ -197,16 +218,19 @@ def main(dataset='mnist'):
         'dataset': dataset, 'classifier_sha256': expected, 'models': provenance, 'torch': str(torch.__version__),
         'gpu': torch.cuda.get_device_name(device) if device.type == 'cuda' else None,
         'threat_model': 'Untargeted L-infinity, clean-centered projection and [0,1] clamp',
-        'loss': 'Cross entropy on classifier logits; frozen models, input gradients enabled',
+        'loss': ('CE(softmax(logits),labels); fixed legacy reference hypothesis' if loss_mode == 'probability' else
+                 'Cross entropy on classifier logits; frozen models, input gradients enabled'),
         'non_adaptive': 'Attack classifier only, then evaluate denoiser+classifier',
         'adaptive': ('Attack denoiser+classifier directly; exact float forward/backward; no BPDA needed'
                      if dataset == 'mnist' else
                      'BPDA-PGD: exact RGB clamp/uint8/PIL grayscale forward; clipped weighted grayscale backward'),
         'output_processing': 'float' if dataset == 'mnist' else 'png-bpda',
         'input_domain': 'Grayscale clean input repeated to RGB inside denoiser; perturbation budget is grayscale',
-        'candidate_selection': 'Any successful iterate/start retained, otherwise largest CE; include clean',
+        'candidate_selection': ('Last iterate only; no best/clean candidate selection' if selection == 'last' else
+                                'Any successful iterate/start retained, otherwise largest CE; include clean'),
         'reporting': 'Adaptive combined column unions clean, non-adaptive and adaptive candidates per image; raw adaptive also reported',
-        'starts': 'Same per-batch seeded random initial perturbations for all attack objectives/models',
+        'starts': ('Same per-batch seeded random initial perturbations for all attack objectives/models'
+                   if args.random_start else 'Clean input; no random start'),
         'partial_evaluation': args.eval_size != total,
         'reference': {'paper_nonadaptive_pgd_percent': 94.26 if dataset == 'mnist' else 91.36,
                       'archived_reevaluation_percent': 91.54 if dataset == 'mnist' else 89.76},
@@ -214,6 +238,9 @@ def main(dataset='mnist'):
                        'Fresh float attacks may differ from stored PNG attacks; reference numbers are diagnostic only.',
                        'Clean and rectified checkpoints may have different historical training provenance.',
                        'Single CE PGD configuration is not a certificate of robustness.'] +
+                      (['legacy-reference is a fixed historical hypothesis, not a verified archived generator.',
+                        'Weaker legacy loss/start settings do not replace standard adaptive robustness evaluation.']
+                       if args.attack_profile == 'legacy-reference' else []) +
                       (['LivDet collected PGD-labelled checkpoint training attack is unconfirmed.',
                         'LivDet backward is a BPDA surrogate, not the derivative of quantization.',
                         'Fresh grayscale attacks may differ from archived RGB attack inputs.'] if dataset == 'livdet' else [])})
@@ -235,7 +262,8 @@ def main(dataset='mnist'):
         starts = [project(clean + torch.empty_like(clean).uniform_(-args.epsilon, args.epsilon,
                     generator=generator), clean, args.epsilon) if args.random_start else clean.clone()
                   for _ in range(args.restarts)]
-        nonadaptive, diag = pgd_candidates(classifier, clean, labels, starts, args.epsilon, args.alpha, args.steps)
+        nonadaptive, diag = pgd_candidates(classifier, clean, labels, starts, args.epsilon, args.alpha, args.steps,
+                                          loss_mode=loss_mode, selection=selection)
         maxima['nonadaptive_linf'] = max(maxima['nonadaptive_linf'], (nonadaptive-clean).abs().max().item())
         def merge(name, values):
             for key, value in values.items():
@@ -248,7 +276,8 @@ def main(dataset='mnist'):
                           'clean_classifier': raw_clean[i].item(), 'nonadaptive_classifier': raw_nonadaptive[i].item()}
                          for i in range(len(labels))]
         for target, model in models.items():
-            adaptive, diag = pgd_candidates(model, clean, labels, starts, args.epsilon, args.alpha, args.steps)
+            adaptive, diag = pgd_candidates(model, clean, labels, starts, args.epsilon, args.alpha, args.steps,
+                                            loss_mode=loss_mode, selection=selection)
             merge(target, diag)
             maxima['adaptive_linf'] = max(maxima['adaptive_linf'], (adaptive-clean).abs().max().item())
             with torch.no_grad():
