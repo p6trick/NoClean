@@ -93,6 +93,7 @@ def main():
     parser.add_argument('--rectified-checkpoint', type=Path,
                         help='Default: collected MNIST PGD denoiser, with manifest hash verification')
     parser.add_argument('--clean-checkpoint', type=Path, help='Optional newly trained PGD clean-target checkpoint')
+    parser.add_argument('--clean-only', action='store_true', help='Evaluate clean-target model only; requires --clean-checkpoint')
     parser.add_argument('--device', choices=['cuda', 'cpu'], default='cuda')
     parser.add_argument('--epsilon', type=float, default=.4)
     parser.add_argument('--alpha', type=float, default=.01)
@@ -106,6 +107,8 @@ def main():
     parser.add_argument('--check-only', action='store_true')
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
+    if args.clean_only and not args.clean_checkpoint:
+        parser.error('--clean-only requires --clean-checkpoint')
     if (not all(math.isfinite(v) and v > 0 for v in [args.epsilon, args.alpha]) or
             min(args.steps, args.restarts, args.batch_size, args.threads) < 1 or
             not 1 <= args.eval_size <= 5000 or not 0 <= args.seed < 2**32):
@@ -130,6 +133,8 @@ def main():
     checkpoints = {'rectified': rectified_path}
     if args.clean_checkpoint:
         checkpoints = {'clean': args.clean_checkpoint, **checkpoints}
+    if args.clean_only:
+        checkpoints = {'clean': args.clean_checkpoint}
     for target, path in checkpoints.items():
         if not path.is_file():
             raise FileNotFoundError(path)

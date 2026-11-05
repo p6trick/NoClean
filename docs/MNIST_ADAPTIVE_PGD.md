@@ -36,6 +36,8 @@ python -u reproduction/evaluate_mnist_adaptive_pgd.py \
 
 서버에 clean-target MNIST 모델이 없다면 처음에는 Ours 1행만 평가한다. 기본 Ours는 Drive의 수집 모델이므로 추가 파일 이동이 필요 없다. `--rectified-checkpoint`로 별도 Ours 모델을 지정할 수 있으며 두 열은 항상 같은 모델을 평가한다.
 
+Ours를 이미 평가했다면 위 명령에 `--clean-only`를 추가해 clean-target 모델만 평가한다. 기본 Drive 묶음에는 새 clean-target 가중치가 포함되지 않으므로, 기존 MNIST target 비교 실행에서 얻은 PGD clean 모델의 `denoiser.pt`를 서버로 옮겨 지정해야 한다. 두 실험을 한 표에 합칠 때는 epsilon·alpha·steps·random start·restarts·seed·batch size·평가 manifest가 같은지 확인한다.
+
 ## 공격·평가 정의
 
 - Non-adaptive PGD: classifier의 logits CE를 최대화해 생성한 입력을 denoiser→classifier로 평가.
