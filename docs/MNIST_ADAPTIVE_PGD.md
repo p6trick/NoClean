@@ -23,6 +23,31 @@ python -u reproduction/evaluate_mnist_adaptive_pgd.py \
   --random-start --restarts 1 --seed 2026 --eval-size 5000 --batch-size 32
 ```
 
+## 과거 구현 가설로 두 공격을 함께 확인
+
+LivDet과 같은 `legacy-reference` 프로필을 MNIST에서도 사용할 수 있다.
+
+```bash
+python -u reproduction/evaluate_mnist_adaptive_pgd.py \
+  --device cuda --attack-profile legacy-reference \
+  --eval-size 5000 --batch-size 1
+```
+
+epsilon.4,alpha2/255,40회,no random start,probability CE,마지막 반복으로 두 공격을 고정한다. 저장 MNIST PGD의 최대 변화량.3137255는40×2/255와 일치하지만, 이 사실만으로 과거 generator를 확정하지는 않는다. 기존standard 프로필의ε.4/α.01/random-start 결과와 구분한다.
+
+이 프로필은 저장 공격도 같은 모델·ID로 다시 평가한다. `summary.csv`의 `archived_classifier_percent`와 `archived_defended_percent`를 통해 기존8.96%·91.54%를 확인하고, 새 `nonadaptive_pgd_percent`와 비교한다. 새 공격은float로 유지하므로 저장PNG와 정확히 동일한 입력이라는 보장은 없다. 저장 공격 결과는 adaptive combined 집계에 추가하지 않는다.
+
+Clean-target도 함께 보려면 다음처럼 첫 번째 제안 실험에서 학습한 모델을 지정한다.
+
+```bash
+python -u reproduction/evaluate_mnist_adaptive_pgd.py \
+  --clean-checkpoint ./mnist_pgd_clean_target.pt \
+  --device cuda --attack-profile legacy-reference \
+  --eval-size 5000 --batch-size 1
+```
+
+이 프로필의 결과가 높아져도 기존standard 공격에 대한 취약성이 개선된 것은 아니다. 모든 결과는 직접 측정값으로 보존하며 기존 성능과 같아질 것을 보장하거나 최종 평가값에 맞춰 설정을 반복 선택하지 않는다.
+
 ## Clean target도 평가할 때
 
 MNIST clean-target 학습 결과가 서버에 있으면 해당 PGD 모델을 직접 지정한다. LivDet용 모델이나 FGSM용 모델을 지정하지 않는다.

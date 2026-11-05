@@ -132,7 +132,7 @@ def main(dataset='mnist'):
     parser.add_argument('--clean-only', action='store_true', help='Evaluate clean-target model only; requires --clean-checkpoint')
     parser.add_argument('--device', choices=['cuda', 'cpu'], default='cuda')
     parser.add_argument('--attack-profile', choices=['standard', 'legacy-reference'], default='standard',
-                        help='legacy-reference fixes LivDet .03,2/255,40,no random start,probability CE,last iterate,batch1')
+                        help='legacy-reference fixes epsilon(MNIST.4/LivDet.03),2/255,40,no random start,probability CE,last iterate,batch1')
     parser.add_argument('--epsilon', type=float, default=.4 if dataset == 'mnist' else .03)
     parser.add_argument('--alpha', type=float, default=.01)
     parser.add_argument('--steps', type=int, default=40)
@@ -146,14 +146,13 @@ def main(dataset='mnist'):
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
     if args.attack_profile == 'legacy-reference':
-        if dataset != 'livdet':
-            parser.error('legacy-reference currently supports LivDet only')
         if args.batch_size != 1:
             parser.error('legacy-reference requires --batch-size 1 to match the reference evaluation')
-        args.epsilon, args.alpha, args.steps = .03, 2/255, 40
+        args.epsilon, args.alpha, args.steps = (.4 if dataset == 'mnist' else .03), 2/255, 40
         args.random_start, args.restarts = False, 1
     loss_mode = 'probability' if args.attack_profile == 'legacy-reference' else 'logits'
     selection = 'last' if args.attack_profile == 'legacy-reference' else 'best'
+    archived_control = dataset == 'mnist' and args.attack_profile == 'legacy-reference'
     if args.clean_only and not args.clean_checkpoint:
         parser.error('--clean-only requires --clean-checkpoint')
     if (not all(math.isfinite(v) and v > 0 for v in [args.epsilon, args.alpha]) or
@@ -170,8 +169,9 @@ def main(dataset='mnist'):
     if len(entries) != args.eval_size or len(all_ids) != len(set(all_ids)):
         raise ValueError('Insufficient evaluation images or overlapping manifest splits')
     for entry in entries:
-        if not Path(entry['path']).is_file():
-            raise FileNotFoundError(entry['path'])
+        for key in ['path', 'attack_path'] if archived_control else ['path']:
+            if not Path(entry[key]).is_file():
+                raise FileNotFoundError(entry[key])
     collection = loads_json((args.checkpoint_root / 'manifest.json').read_text())
     classifier_path = args.checkpoint_root / dataset / 'classifier.pth'
     expected = next(r['sha256'] for r in collection['copied_files'] if r['copy'] == f'{dataset}/classifier.pth')
@@ -226,6 +226,7 @@ def main(dataset='mnist'):
                      'BPDA-PGD: exact RGB clamp/uint8/PIL grayscale forward; clipped weighted grayscale backward'),
         'output_processing': 'float' if dataset == 'mnist' else 'png-bpda',
         'input_domain': 'Grayscale clean input repeated to RGB inside denoiser; perturbation budget is grayscale',
+        'archived_attack_control': archived_control,
         'candidate_selection': ('Last iterate only; no best/clean candidate selection' if selection == 'last' else
                                 'Any successful iterate/start retained, otherwise largest CE; include clean'),
         'reporting': 'Adaptive combined column unions clean, non-adaptive and adaptive candidates per image; raw adaptive also reported',
@@ -246,8 +247,13 @@ def main(dataset='mnist'):
                         'Fresh grayscale attacks may differ from archived RGB attack inputs.'] if dataset == 'livdet' else [])})
     write_json(output / 'manifest.json', entries)
     write_json(output / 'clean_image_hashes.json', {e['id']: fingerprint(e['path']) for e in entries})
+    if archived_control:
+        write_json(output / 'archived_attack_hashes.json', {e['id']: fingerprint(e['attack_path']) for e in entries})
     counts = {target: dict.fromkeys(['clean_classifier', 'clean_defended', 'nonadaptive_classifier',
                   'nonadaptive_defended', 'adaptive_only', 'adaptive_combined'], 0) for target in models}
+    if archived_control:
+        for count in counts.values():
+            count.update(archived_classifier=0, archived_defended=0)
     diagnostics = {target: {'zero_gradient_samples': 0, 'gradient_calls': 0,
                            'max_gradient_linf': 0.0} for target in ['nonadaptive', *models]}
     predictions, maxima = [], {'nonadaptive_linf': 0.0, 'adaptive_linf': 0.0}
@@ -275,6 +281,14 @@ def main(dataset='mnist'):
         batch_records = [{'id': entries[batch_index*args.batch_size+i]['id'], 'label': labels[i].item(),
                           'clean_classifier': raw_clean[i].item(), 'nonadaptive_classifier': raw_nonadaptive[i].item()}
                          for i in range(len(labels))]
+        archived = None
+        if archived_control:
+            chunk = entries[batch_index*args.batch_size:batch_index*args.batch_size+len(labels)]
+            archived, _ = next(image_batches(chunk, len(chunk), device, 'attack_path'))
+            with torch.no_grad():
+                archived_raw = classifier(archived).argmax(1)
+            for i, record in enumerate(batch_records):
+                record['archived_classifier'] = archived_raw[i].item()
         for target, model in models.items():
             adaptive, diag = pgd_candidates(model, clean, labels, starts, args.epsilon, args.alpha, args.steps,
                                             loss_mode=loss_mode, selection=selection)
@@ -284,6 +298,8 @@ def main(dataset='mnist'):
                 defended_clean = model(clean).argmax(1)
                 defended_nonadaptive = model(nonadaptive).argmax(1)
                 defended_adaptive = model(adaptive).argmax(1)
+                if archived_control:
+                    archived_defended = model(archived).argmax(1)
             correct_clean = defended_clean.eq(labels)
             correct_nonadaptive = defended_nonadaptive.eq(labels)
             correct_adaptive = defended_adaptive.eq(labels)
@@ -291,12 +307,17 @@ def main(dataset='mnist'):
                       'nonadaptive_classifier': raw_nonadaptive.eq(labels),
                       'nonadaptive_defended': correct_nonadaptive, 'adaptive_only': correct_adaptive,
                       'adaptive_combined': correct_clean & correct_nonadaptive & correct_adaptive}
+            if archived_control:
+                values.update(archived_classifier=archived_raw.eq(labels),
+                              archived_defended=archived_defended.eq(labels))
             for key, value in values.items():
                 counts[target][key] += value.sum().item()
             for i, record in enumerate(batch_records):
                 record[target] = {'clean': defended_clean[i].item(), 'nonadaptive': defended_nonadaptive[i].item(),
                                  'adaptive': defended_adaptive[i].item(),
                                  'combined_correct': bool(values['adaptive_combined'][i])}
+                if archived_control:
+                    record[target]['archived'] = archived_defended[i].item()
         predictions.extend(batch_records)
         print('EVALUATED', len(predictions), '/', len(entries), flush=True)
     rows = []
@@ -309,6 +330,9 @@ def main(dataset='mnist'):
                      'adaptive_pgd_combined_percent': accuracy['adaptive_combined'],
                      'classifier_nonadaptive_percent': accuracy['nonadaptive_classifier'],
                      'adaptive_combined_minus_nonadaptive_pp': accuracy['adaptive_combined']-accuracy['nonadaptive_defended']})
+        if archived_control:
+            rows[-1].update(archived_classifier_percent=accuracy['archived_classifier'],
+                            archived_defended_percent=accuracy['archived_defended'])
     with (output / 'summary.csv').open('w', newline='') as stream:
         writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
     write_json(output / 'metrics.json', {'count':len(entries), 'correct':counts, 'summary':rows,
