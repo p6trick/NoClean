@@ -101,6 +101,8 @@ DIP BIM·AA 전체 2,500장은 측정된 장당 약 2분 기준 약 88시간 규
 
 ## 재학습과 연구용 진단
 
+교수님 세 번째 제안 실험은 [Rectification mechanism 분석](docs/RECTIFICATION_MECHANISM.md)을 참고한다. `reproduction/analyze_rectification.py`가 평가 분할에서 보정을 새로 수행하고 성공률·실패율·반복 수·clean RMSE·Closer 비율을 기록한다. Denoiser를 학습하지 않는다.
+
 Clean target과 rectified target의 통제 비교는 [MNIST target 비교 실험](docs/MNIST_TARGET_ABLATION.md)을 참고한다. `reproduction/mnist_target_ablation.py`가 같은 초기 상태와 데이터 순서로 두 모델을 새로 학습한다.
 
 LivDet은 [LivDet target 비교 실험](docs/LIVDET_TARGET_ABLATION.md)의 `reproduction/livdet_target_ablation.py`를 사용한다. 기본 설정은 100epoch·batch1·전체 이미지 학습이며, 먼저 FGSM 두 조건을 확인할 수 있다.
