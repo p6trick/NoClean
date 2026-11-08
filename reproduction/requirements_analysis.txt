@@ -1,0 +1,2 @@
+# Optional offline plotting only; not needed by the evaluator.
+matplotlib>=3.8,<4

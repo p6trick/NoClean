@@ -78,6 +78,8 @@ python -u reproduction/table6_clean.py --datasets mnist livdet
 
 ## 비교 방법
 
+기준 결과 19.90%·8.76%의 설정을 고정한 [MNIST epsilon sensitivity](docs/MNIST_EPSILON_SENSITIVITY.md)도 사용할 수 있다. `mnist_epsilon_sweep.py`가 기존 PGD 함수를 재사용해 epsilon만 바꾸고, `analyze_mnist_epsilon_sweep.py`가 저장 결과에서 곡선과 비교 이미지를 만든다. 이 기준의 실제 step size는 0.01이 아니라 2/255다.
+
 전체 방어에 대한 새 공격 평가는 [MNIST adaptive PGD](docs/MNIST_ADAPTIVE_PGD.md)를 참고한다. `reproduction/evaluate_mnist_adaptive_pgd.py`는 같은 clean 입력에서 classifier-only PGD와 end-to-end PGD를 새로 생성하고, 고정된 PGD denoiser를 평가한다.
 
 LivDet은 [LivDet adaptive BPDA-PGD](docs/LIVDET_ADAPTIVE_PGD.md)의 `reproduction/evaluate_livdet_adaptive_pgd.py`를 사용한다. 실제 PNG 후처리를 forward에 유지하고 backward에 미분 가능한 근사를 적용한다.
