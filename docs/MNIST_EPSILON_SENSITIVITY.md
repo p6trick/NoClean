@@ -27,8 +27,10 @@
 
 ## 현재 PC에서 사용자가 push
 
+아래 `/path/to/NoClean`은 실제 로컬 저장소 폴더로 바꾼다.
+
 ```bash
-cd /home/six/workspace/N2N_github
+cd /path/to/NoClean
 git add README.md docs/MNIST_EPSILON_SENSITIVITY.md \
   reproduction/epsilon_sweep_io.py \
   reproduction/mnist_epsilon_sweep.py \
