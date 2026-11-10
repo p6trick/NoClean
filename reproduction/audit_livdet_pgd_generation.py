@@ -20,15 +20,16 @@ from paths import CHECKPOINT_ROOT, PM_ROOT, loads_json
 from run import fingerprint, load_classifier, project, write_json
 
 
-def start_for_id(clean, identity, seed):
+def start_for_id(clean, identity, seed, epsilon=.03):
     value = int.from_bytes(hashlib.sha256(f'{seed}:{identity}'.encode()).digest()[:8], 'big')
     generator = torch.Generator(device=clean.device).manual_seed(value)
-    return project(clean + torch.empty_like(clean).uniform_(-.03, .03, generator=generator), clean, .03)
+    return project(clean + torch.empty_like(clean).uniform_(-epsilon, epsilon, generator=generator), clean, epsilon)
 
 
-def generate(model, clean, labels, alpha, random_start, probability_ce, best, start, steps):
+def generate(model, clean, labels, alpha, random_start, probability_ce, best, start, steps, epsilon=.03):
     if best:
-        return pgd_candidates(model, clean, labels, [start if random_start else clean], .03, alpha, steps)[0]
+        return pgd_candidates(model, clean, labels, [start if random_start else clean], epsilon, alpha, steps,
+                              loss_mode='probability' if probability_ce else 'logits')[0]
     value = start.detach().clone() if random_start else clean.detach().clone()
     for _ in range(steps):
         value = value.detach().requires_grad_(True)
@@ -39,7 +40,7 @@ def generate(model, clean, labels, alpha, random_start, probability_ce, best, st
         grad, = torch.autograd.grad(loss, value)
         if not torch.isfinite(grad).all():
             raise ValueError('Nonfinite gradient')
-        value = project(value.detach()+alpha*grad.sign(), clean, .03).detach()
+        value = project(value.detach()+alpha*grad.sign(), clean, epsilon).detach()
     return value
 
 

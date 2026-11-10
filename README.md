@@ -103,6 +103,8 @@ DIP BIM·AA 전체 2,500장은 측정된 장당 약 2분 기준 약 88시간 규
 
 ## 재학습과 연구용 진단
 
+LivDet 저장 PGD 생성 과정을 추적하는 [파라미터 탐색](docs/LIVDET_PGD_PARAMETER_SEARCH.md)도 제공한다. `search_livdet_pgd_parameters.py`는 소스 근거가 있는 후보들을 비교한다. `--split evaluation --sample-size 0`을 사용하면 전체 평가 1,250장에서 설정별 분류기 정확도와 같은 샘플의 저장 공격 정확도 차이를 기록한다. 이는 평가셋에서 수행하는 설정 비교이며, 과거 생성 설정을 확정하는 증거는 아니다. N2N 모델은 사용하지 않는다.
+
 교수님 세 번째 제안 실험은 [Rectification mechanism 분석](docs/RECTIFICATION_MECHANISM.md)을 참고한다. `reproduction/analyze_rectification.py`가 평가 분할에서 보정을 새로 수행하고 성공률·실패율·반복 수·clean RMSE·Closer 비율을 기록한다. Denoiser를 학습하지 않는다.
 
 Clean target과 rectified target의 통제 비교는 [MNIST target 비교 실험](docs/MNIST_TARGET_ABLATION.md)을 참고한다. `reproduction/mnist_target_ablation.py`가 같은 초기 상태와 데이터 순서로 두 모델을 새로 학습한다.
