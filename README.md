@@ -138,3 +138,5 @@ python -m unittest discover -s reproduction -p 'test_*.py'
 외부 코드의 출처·라이선스는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)를 참고한다. 프로젝트 자체의 공개 코드 라이선스는 아직 지정하지 않았다.
 
 실제 `.env`, 이미지 데이터와 가중치는 커밋하지 않는다. `.env.example`과 문서의 경로 예제를 사용해 각자의 다운로드 위치를 지정한다.
+
+고정된 LivDet PGD 후보(분류기 탐색 정확도2.88%)의 N2N 방어 평가는 [실행 안내](docs/LIVDET_PGD_CANDIDATE.md)를 참고한다. 기존 저장 공격과 새 후보를 같은 평가 샘플에서 비교한다.
