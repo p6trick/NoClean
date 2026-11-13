@@ -56,3 +56,42 @@ python -u reproduction/evaluate_livdet_pgd_candidate.py \
 - completion.json: 전체 완료 기록.
 
 summary.csv, metrics.json, config.json을 공유한다. 기존 저장 공격 방어 정확도 Ours89.76%, clean-target89.04%는 참고치이고, 같은 실행에서 재측정한 archived_attack_accuracy_percent가 직접 비교 기준이다. 학습·추론·테스트는 코드 작성 시 실행하지 않았다.
+
+
+## 같은 조건의 adaptive BPDA-PGD
+
+`--adaptive` 옵션으로 같은 non-adaptive 대조군을 다시 측정하고, 각 denoiser를 개별적으로 공격한다.
+
+공격 경로는 float latent 입력→truncate8→N2N→기존 PNG 후처리→분류기다. Forward는 정확한 입력 내림 및 기존 PNG 처리를 유지한다. Backward는 입력 양자화를 identity BPDA로, 출력 PNG는 기존 `png_bpda`로 근사한다. `pgd_candidates`를 그대로 사용하며 probability CE, 마지막 반복,40회,alpha2/255,epsilon8/255,random start 없음,batch1을 유지한다. float 공격은 tensor-gray clean 중심에서 제한하고 양자화 후 canonical clean 대비 변화량도 별도로 기록한다.
+
+완료된 non-adaptive 실행을 `--reference-run`으로 지정한다. 데이터·순서·labels·모델·설정 해시와 실행 환경이 같아야 하며 각 샘플의 non-adaptive 예측도 재측정해 일치 여부를 확인한다. 다르면 중단한다. 다른 서버에서 실행하려면 먼저 해당 서버에서 non-adaptive 기준 실행을 만들어야 한다. 기존 결과나 checkpoint를 덮어쓰지 않는다.
+
+현재 PC에서 기존 non-adaptive 결과를 기준으로 실행하는 예:
+
+```bash
+cd /path/to/NoClean
+conda activate n2n
+source .env
+export CLEAN_CKPT="$PWD/reproduction/runs/livdet_target_ablation_20261104_161606_395725/pgd/seed_2026/clean/denoiser.pt"
+
+python reproduction/evaluate_livdet_pgd_candidate.py \
+  --adaptive --clean-checkpoint "$CLEAN_CKPT" \
+  --reference-run ./reproduction/runs/livdet_pgd_candidate_both_local \
+  --check-only
+
+nohup python -u reproduction/evaluate_livdet_pgd_candidate.py \
+  --device cuda --adaptive --clean-checkpoint "$CLEAN_CKPT" \
+  --reference-run ./reproduction/runs/livdet_pgd_candidate_both_local \
+  --output ./reproduction/runs/livdet_pgd_candidate_adaptive_both_local \
+  > livdet_pgd_candidate_adaptive_both_local.log 2>&1 &
+```
+
+중단 후 같은 옵션에서 `--output`을 다음으로 교체한다:
+
+```bash
+--resume ./reproduction/runs/livdet_pgd_candidate_adaptive_both_local
+```
+
+공유 파일: summary.csv,metrics.json,config.json. 표에는 `candidate_attack_accuracy_percent`와 `adaptive_pgd_percent`를 사용한다. `combined_accuracy_percent`는 clean·non-adaptive·adaptive를 모두 맞힌 비율로 별도 지표다. ASR은 양자화된 defended clean 입력을 맞힌 샘플을 분모로 하며 canonical PIL clean 정확도와 구분한다. metrics.json은 gradient 호출 수, zero-gradient 수, float/양자화 후 최대 perturbation을 기록한다. Probability CE와 BPDA의 공격 결과는 이 고정 설정에 대한 결과이며 최강 공격에 대한 robustness 보장은 아니다.
+
+코드 수정 후 추론·테스트·설치는 직접 수행하지 않았다.

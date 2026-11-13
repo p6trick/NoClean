@@ -1,12 +1,13 @@
-"""Fixed non-adaptive LivDet PGD candidate: tensor-gray, 8/255, truncate8."""
+"""Fixed LivDet PGD candidate, with optional adaptive BPDA evaluation."""
 import argparse
+import csv
 from datetime import datetime
 import json
 from pathlib import Path
 from types import SimpleNamespace
 
 from audit_livdet_pgd_generation import generate
-from adaptive_pgd import load_denoiser
+from adaptive_pgd import DefendedLivDet, load_denoiser, pgd_candidates
 from epsilon_sweep_io import write_csv, write_json
 from evaluate_legacy_livdet import classifier_input
 import livdet
@@ -20,6 +21,18 @@ from torchvision.transforms.functional import rgb_to_grayscale
 ATTACK = dict(epsilon=8/255, alpha=2/255, steps=40, random_start=False,
               loss='probability', preprocessing='tensor-gray', selection='last',
               encoding='truncate8', batch_size=1)
+
+
+class QuantizedDefense(torch.nn.Module):
+    """Exact truncate8 input and legacy PNG output; identity BPDA for input Q."""
+    def __init__(self, classifier, denoiser):
+        super().__init__()
+        self.defense=DefendedLivDet(classifier,denoiser)
+
+    def forward(self, images):
+        exact=encode(images.detach(),'truncate8')
+        quantized=exact+(images-images.detach())
+        return self.defense(quantized)
 
 
 def summarize(output, records, models, total):
@@ -36,10 +49,36 @@ def summarize(output, records, models, total):
                          candidate_attack_accuracy_percent=values['candidate'],
                          historical_archived_reference_percent=reference,
                          candidate_minus_same_sample_archived_pp=values['candidate']-values['archived']))
-    write_csv(output/'per_image.csv',records,list(records[0]))
+    if 'adaptive' in records[0]:
+        for row in rows:
+            name=row['model']
+            if name=='classifier':
+                row.update(adaptive_pgd_percent='',adaptive_clean_correct_asr_percent='',
+                           adaptive_baseline_accuracy_percent='',combined_accuracy_percent='')
+                continue
+            items=[r['adaptive'][name] for r in records]
+            eligible=sum(v['baseline_correct'] for v in items)
+            row.update(adaptive_pgd_percent=100*sum(v['correct'] for v in items)/len(items),
+                adaptive_clean_correct_asr_percent=(100*sum(v['baseline_correct'] and not v['correct'] for v in items)/eligible if eligible else None),
+                adaptive_baseline_accuracy_percent=100*eligible/len(items),
+                combined_accuracy_percent=100*sum(v['correct'] and v['baseline_correct'] and r[name+'_candidate_correct'] for r,v in zip(records,items))/len(items))
+        # Nested per-model diagnostics are flattened in the CSV, retained in sample JSON.
+    flat=[]
+    for r in records:
+        item={k:v for k,v in r.items() if k!='adaptive'}
+        for name,values in r.get('adaptive',{}).items():
+            item.update({name+'_adaptive_'+k:v for k,v in values.items()})
+        flat.append(item)
+    write_csv(output/'per_image.csv',flat,list(flat[0]))
     write_csv(output/'summary.csv',rows,list(rows[0]))
     write_json(output/'metrics.json',dict(sample_count=len(records), expected_count=total,
         complete=len(records)==total, attack=ATTACK, results=rows,
+        adaptive_diagnostics={name:dict(
+            gradient_calls=sum(r['adaptive'][name]['gradient_calls'] for r in records),
+            zero_gradient_samples=sum(r['adaptive'][name]['zero_gradient_samples'] for r in records),
+            max_float_linf=max(r['adaptive'][name]['float_linf'] for r in records),
+            max_encoded_linf_from_canonical=max(r['adaptive'][name]['encoded_linf'] for r in records))
+            for name in models if 'adaptive' in records[0]},
         max_float_linf_from_attack_center=max(r['float_linf'] for r in records),
         max_encoded_linf_from_canonical_clean=max(r['encoded_linf'] for r in records),
         expected_classifier_candidate_percent=2.88,
@@ -49,6 +88,8 @@ def summarize(output, records, models, total):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--adaptive',action='store_true',help='Also attack each complete quantized defense using BPDA')
+    p.add_argument('--reference-run',type=Path,help='Required for adaptive mode: completed non-adaptive candidate run')
     p.add_argument('--clean-checkpoint',type=Path,
                    help='Optional PGD clean-target model from the first target-ablation experiment, not the legacy bundle')
     p.add_argument('--device',choices=['cuda','cpu'],default='cuda')
@@ -62,6 +103,8 @@ def main():
     args=p.parse_args()
     if not 1<=args.eval_size<=1250 or args.threads<1 or not 0<=args.seed<2**32:
         p.error('Invalid evaluation size, threads or seed')
+    if args.adaptive and not args.reference_run:
+        p.error('--adaptive requires --reference-run to verify the non-adaptive control')
     registry=loads_json((Path(__file__).parent/'livdet_experiments.json').read_text())
     entries=livdet.resolve_groups(PM_ROOT,registry['pgd'],SimpleNamespace(
         seed=2026,train_size=1125,validation_size=125,eval_size=1250))['evaluation']
@@ -88,6 +131,23 @@ def main():
             'evaluate_livdet_pgd_candidate.py','audit_livdet_pgd_generation.py',
             'adaptive_pgd.py','search_livdet_pgd_parameters.py','livdet.py',
             'models.py','evaluate_legacy_livdet.py','run.py']})
+    reference=None
+    if args.reference_run:
+        ref_config=json.loads((args.reference_run/'config.json').read_text())
+        ref_completion=json.loads((args.reference_run/'completion.json').read_text())
+        if ref_completion['experiment_signature']!=ref_config['experiment_signature'] or ref_completion['sample_count']!=len(entries):
+            raise ValueError('Reference is not a complete matching run')
+        if fingerprint(args.reference_run/'per_image.csv')!=ref_completion['per_image_sha256']:
+            raise ValueError('Reference per-image hash mismatch')
+        for key in ['attack','seed','samples','classifier_sha256','checkpoint_sha256']:
+            if signature(identity[key])!=signature(ref_config[key]):
+                raise ValueError('Reference differs: '+key+'; use exactly the completed reference models/data/settings')
+        reference=list(csv.DictReader((args.reference_run/'per_image.csv').open()))
+        if len(reference)!=len(entries):
+            raise ValueError('Reference sample count mismatch')
+        identity['reference_per_image_sha256']=ref_completion['per_image_sha256']
+    identity['adaptive']=args.adaptive
+    identity['adaptive_method']='Input truncate8 identity BPDA + legacy output PNG BPDA; probability CE,last iterate,40 steps,no random start' if args.adaptive else None
     print('VERIFIED',len(entries),'images; models:',','.join(checkpoints),'; attack:',ATTACK,flush=True)
     if args.check_only:
         return
@@ -103,6 +163,8 @@ def main():
         gpu=torch.cuda.get_device_name(device) if device.type=='cuda' else None,
         matmul_allow_tf32=torch.backends.cuda.matmul.allow_tf32,
         cudnn_allow_tf32=torch.backends.cudnn.allow_tf32)
+    if reference is not None and identity['runtime']!=ref_config['runtime']:
+        raise ValueError('Use the same runtime/GPU as the reference, or measure a new non-adaptive reference there first')
     classifier=load_classifier(classifier_path,device)
     models={};provenance={}
     for name,path in checkpoints.items():
@@ -113,6 +175,7 @@ def main():
         if name=='rectified' and target=='clean':
             raise ValueError('Rectified checkpoint is marked clean-target')
         models[name]=model;provenance[name]=info
+    wrappers={k:QuantizedDefense(classifier,m).eval().requires_grad_(False) for k,m in models.items()} if args.adaptive else {}
     stamp=signature(identity)
     output=args.resume or args.output or Path(__file__).parent/'runs'/datetime.now().strftime('livdet_pgd_candidate_%Y%m%d_%H%M%S_%f')
     if args.resume:
@@ -121,9 +184,11 @@ def main():
     else:
         output.mkdir(parents=True,exist_ok=False)
         write_json(output/'config.json',dict(experiment_signature=stamp,**identity,
-            model_provenance=provenance,mode='non-adaptive classifier-only PGD; no training',
+            model_provenance=provenance,mode='non-adaptive + adaptive BPDA PGD; no training' if args.adaptive else 'non-adaptive classifier-only PGD; no training',
             denoiser_postprocessing='Legacy RGB uint8 truncation -> PIL grayscale -> classifier',
             missing_clean_target='clean' not in models,
+            adaptive_asr_denominator='Samples correct under quantized defended clean input Q(tensor-gray clean); separate from canonical PIL clean baseline',
+            adaptive_table_metric='adaptive_pgd_percent: accuracy on final iterate of adaptive attack alone; combined_accuracy_percent is reported separately',
             source_case_id='case_42f43d74a4339e9d'))
         write_json(output/'manifest.json',entries)
         write_json(output/'input_hashes.json',hashes)
@@ -161,6 +226,31 @@ def main():
                     pred=logits.argmax(1).item()
                     r[name+'_'+source+'_prediction']=pred
                     r[name+'_'+source+'_correct']=int(pred==e['label'])
+        if reference is not None:
+            expected=reference[index]
+            if expected['id']!=e['id'] or int(expected['label'])!=e['label']:
+                raise ValueError('Reference sample identity/order mismatch')
+            for key,value in r.items():
+                if key.endswith('_prediction') and int(expected[key])!=value:
+                    raise ValueError(f'Non-adaptive control differs for {e["id"]}: {key}; stop before mixing conditions')
+        if args.adaptive:
+            r['adaptive']={}
+            for name,wrapper in wrappers.items():
+                with torch.no_grad():
+                    baseline=wrapper(center).argmax(1).item()
+                adv,diagnostics=pgd_candidates(wrapper,center,labels,[center],
+                    ATTACK['epsilon'],ATTACK['alpha'],ATTACK['steps'],
+                    loss_mode=ATTACK['loss'],selection=ATTACK['selection'])
+                with torch.no_grad():
+                    logits=wrapper(adv)
+                    if not torch.isfinite(logits).all():
+                        raise ValueError('Nonfinite adaptive logits')
+                    pred=logits.argmax(1).item()
+                quantized=encode(adv,'truncate8')
+                r['adaptive'][name]=dict(prediction=pred,correct=int(pred==e['label']),
+                    baseline_prediction=baseline,baseline_correct=int(baseline==e['label']),
+                    float_linf=(adv-center).abs().max().item(),
+                    encoded_linf=(quantized-canonical).abs().max().item(),**diagnostics)
         write_json(saved,r)
         records.append(r)
         if (index+1)%25==0 or index+1==len(entries):
